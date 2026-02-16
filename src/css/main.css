@@ -1,0 +1,42 @@
+:root {
+    --color-bg: #0a0f1a;           /* Глубокий тёмно-синий фон */
+    --color-surface: #16202e;       /* Панели и карточки */
+    --color-text: #e0e6f0;          /* Светлый текст */
+    --color-gold: #c9a45b;           /* Золотой акцент */
+    --color-gold-light: #f1dcb7;    /* Светлое золото для наведения */
+    --color-blue: #2a4c7c;           /* Глубокий синий */
+    --color-border: #2a3a4a;         /* Цвет границ */
+    
+    /* Размеры и отступы */
+    --header-height: 100px;
+    --footer-height: 60px;
+    --border-radius: 12px;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+
+    background-color: var(--color-bg);
+    color: var(--color-text);
+
+    font-size: 16px;
+    line-height: 1.6;
+
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--color-surface), #1a2737);
+    border-bottom: 3px solid var(--color-gold);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    text-align: center;
+}
