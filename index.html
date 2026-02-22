@@ -14,18 +14,33 @@
 </head>
     <body>
         <header>
-            <h1>Sixieme Terre</h1>
-            <p>Fauxlore Interactive</p>
+            <p class="site-subtitle">Fauxlore Interactive</p>
         </header>
 
-        <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Sixieme Terre</h1>
+                <p class="hero-subtitle">Velum Mundi Fauxlore</p>
+                <p class="hero-description">
+                    Добро пожаловать в интерактивный атлас Шестой Земли,<br>
+                    Исследуй просторы, открывай ресурсы, следи за историей.
+                </p>
+
+                <a href="#map-section" class="scroll-down">
+                    <span class="arrow">↓</span>
+                    <span class="arrow-text">К карте</span>
+                </a>
+            </div>
+        </section>
+
+        <section id="map-section" class="map-section">
             <div id="map">
                 <div class="map-placeholder">
                     <p>Карта загружается...</p>
                     <button id="test-btn">Нажми меня</button>
                 </div>
             </div>
-        </main>
+        </section>
 
         <footer>
             <p>Fauxlore Project © 2026</p>
