@@ -311,3 +311,34 @@ footer {
     width: 90%;
     height: 70vh;
 }
+
+/* ===== БЛОК 13: СТИЛИ ДЛЯ LEAFLET ===== */
+.leaflet-container {
+    background: var(--color-surface);
+
+    .leaflet-control-attribution {
+        background: rgba(10, 15, 26, 0.7);
+        color: #8a9bb5 !important;
+        font-size: 0.8rem !important;
+        backdrop-filter: blur(5px);
+        border-radius: 20px !important;
+        padding: 2px 8px !important;
+    }
+
+    .leaflet-control-zoom {
+        border: 2px solid var(--color-gold) !important;
+        border-radius: 10px !important;
+        overflow: hidden;
+    }
+
+    .leaflet-control-zoom a {
+        background: var(--color-surface) !important;
+        color: var(--color-gold) !important;
+        border: none !important;
+    }
+
+    .leaflet-control-zoom a:hover {
+        background: var(--color-gold) !important;
+        color: var(--color-bg) !important;
+    }
+}
