@@ -3,7 +3,7 @@ function loadBaseLayer(map, imagePath) {
 
     const bounds = window.mapBounds;
 
-    const imageLayer = L.imageLayer(imagePath, bounds);
+    const imageLayer = L.imageOverlay(imagePath, bounds);
     imageLayer.addTo(map);
 
     return imageLayer

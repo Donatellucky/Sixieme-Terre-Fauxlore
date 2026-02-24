@@ -1,7 +1,7 @@
-import initFauxloreMap from "./map/init";
-import { loadBaseLayer } from "./map/layers";
+import initFauxloreMap from "./map/init.js";
+import { loadBaseLayer, switchLayer } from "./map/layers.js";
 
-document.addEventListener('DOMContentLoaded',) {
+document.addEventListener('DOMContentLoaded', function() {
     console.log('Sixième Terre запущен');
 
     const map = initFauxloreMap();
