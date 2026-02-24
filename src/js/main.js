@@ -1,5 +1,5 @@
 import initFauxloreMap from "./map/init.js";
-import { loadBaseLayer, switchLayer } from "./map/layers.js";
+import { loadBaseLayer, switchLayer  } from "./map/layers.js";
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Sixième Terre запущен');
@@ -9,4 +9,4 @@ document.addEventListener('DOMContentLoaded', function() {
      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap'
     }).addTo(map);
-}
+})
