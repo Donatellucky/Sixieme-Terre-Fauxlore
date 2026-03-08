@@ -1,5 +1,5 @@
 export default function initFauxloreMap() {
-    console.log('🚀 Инициализация карты...');
+    console.log('Инициализация карты...');
     const MAP_WIDTH = 3819;
     const MAP_HEIGHT = 2455;
     const bounds = [[0, 0], [MAP_HEIGHT, MAP_WIDTH]];

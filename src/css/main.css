@@ -45,33 +45,6 @@ header {
     text-align: center;
 }
 
-/* ===== БЛОК 4: ЗАГОЛОВКИ В ШАПКЕ ===== */
-header h1 {
-    font-family: 'Cinzel', serif;
-    font-size: 3.5rem;
-    font-weight: 700;
-    color: var(--color-gold);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    letter-spacing: 4px;
-    margin-bottom: 0.5rem;
-}
-
-header p {
-    font-size: 1.2rem;
-    font-weight: 300;
-    letter-spacing: 2px;
-    opacity: 0.9;
-}
-
-/* ===== БЛОК 5: ОСНОВНОЙ КОНТЕЙНЕР ===== */
-main {
-    flex: 1;
-    padding: 2rem;
-    max-width: 1400px;
-    width: 100%;
-    margin: 0 auto;
-}
-
 /* ===== БЛОК 6: КОНТЕЙНЕР КАРТЫ ===== */
 #map {
     width: 100%;
@@ -143,10 +116,6 @@ footer {
 
 /* ===== БЛОК 10: АДАПТИВНОСТЬ ===== */
 @media (max-width: 768px) {
-    header h1 {
-        font-size: 2.2rem;
-        letter-spacing: 2px;
-    }
 
     .hero h1 {
         font-size: 3rem;
@@ -170,14 +139,6 @@ footer {
         height: 60vh;
     }
 
-    header p {
-        font-size: 1rem;
-    }
-
-    main {
-        padding: 1rem;
-    }
-
     #map {
         height: 400px;
     }
@@ -193,9 +154,6 @@ footer {
 }
 
 @media (max-width: 480px) {
-    header h1 {
-        font-size: 1.8rem;
-    }
 
     .hero h1 {
         font-size: 2.2rem;

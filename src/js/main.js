@@ -1,7 +1,8 @@
-// import initFauxloreMap from "./map/init.js";
-// import { loadBaseLayer, switchLayer } from "./map/layers.js";
+import initFauxloreMap from "./map/init.js";
+import { loadBaseLayer, switchLayer } from "./map/layers.js";
+import { initLayerControls } from "./ui/layer-control.js";
 
-// Вставь сюда код init.js
+// init.js связан
 function initFauxloreMap() {
     console.log('Инициализация карты...');
     const MAP_WIDTH = 3819;
@@ -18,7 +19,7 @@ function initFauxloreMap() {
     return map;
 }
 
-// Вставь сюда код layers.js
+// layers.js связан
 function loadBaseLayer(map, imagePath) {
     console.log('Загружаем слой:', imagePath);
     const bounds = window.mapBounds;
@@ -37,5 +38,5 @@ function switchLayer(map, newImagePath, currentLayer) {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Sixième Terre запущен');
     const map = initFauxloreMap();
-    loadBaseLayer(map, 'src/assets/maps/newfauxpolit.png');
+    initLayerControls(map);
 });

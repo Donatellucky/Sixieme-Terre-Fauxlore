@@ -1,5 +1,5 @@
 export function loadBaseLayer(map, imagePath) {
-    console.log('🖼️ Загружаем слой:', imagePath);
+    console.log('Загружаем слой:', imagePath);
     const bounds = window.mapBounds;
     const imageLayer = L.imageOverlay(imagePath, bounds);
     imageLayer.addTo(map);
