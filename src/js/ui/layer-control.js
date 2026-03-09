@@ -15,7 +15,7 @@ export function initLayerControls(map) {
     const defaultButton = document.querySelector(`.layer-btn[data-layer="${defaultLayer}]`);
         if (defaultButton) {
         defaultButton.classList.add('active')
-        currentLayer = null(map, layerPaths[defaultLayer]);
+        currentLayer = switchLayer(map, layerPaths[defaultLayer]);
     }
 
     layerButtons.forEach(btn => {
