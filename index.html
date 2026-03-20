@@ -5,7 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Sixieme Terre</title>
         <link rel="stylesheet" href="src/css/main.css">
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
         <link rel="icon" href="src/assets/avatarka_faux.png" type="image/png">
       
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +12,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     
 </head>
-    <body>
+    <body class="page-index">
         <header>
             <p class="site-subtitle">Fauxlore Interactive</p>
         </header>
@@ -27,33 +26,12 @@
                     Исследуй просторы, открывай ресурсы, следи за историей.
                 </p>
 
-                <a href="#map-section" class="scroll-down">
-                    <span class="arrow">↓</span>
-                    <span class="arrow-text">К карте</span>
-                </a>
-            </div>
-        </section>
-
-        <div class="layer-controls">
-            <button class="layer-btn active" data-layer="political">Политическая</button>
-            <button class="layer-btn" data-layer="geographic">Географическая</button>
-            <button class="layer-btn" data-layer="trade">Торговая</button>
-            <button class="layer-btn" data-layer="resources">Ресурсы</button>
-        </div>
-
-        <section id="map-section" class="map-section">
-            <div id="map">
-                <div class="map-placeholder">
-                    <p>Карта загружается...</p>
-                    <button id="test-btn">Нажми меня</button>
-                </div>
+                <a href="map.html" class="enter-map-btn">Открыть карту</a>
             </div>
         </section>
 
         <footer>
             <p>Fauxlore Project © 2026</p>
         </footer>
-
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-        <script type="module" src="src/js/main.js"></script>
+    </body>
 </html>

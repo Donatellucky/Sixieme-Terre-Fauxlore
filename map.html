@@ -13,46 +13,33 @@
         <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     
 </head>
-    <body>
-        <header>
+    <body class="page-map">
+        <!-- Мини-шапка: только логотип и ссылка на главную -->
+        <div class="map-header">
             <p class="site-subtitle">Fauxlore Interactive</p>
-        </header>
+            <a href="index.html" class="back-link">На главную</a>
+        </div>
 
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Sixieme Terre</h1>
-                <p class="hero-subtitle">Velum Mundi Fauxlore</p>
-                <p class="hero-description">
-                    Добро пожаловать в интерактивный атлас Шестой Земли,<br>
-                    Исследуй просторы, открывай ресурсы, следи за историей.
-                </p>
-
-                <a href="#map-section" class="scroll-down">
-                    <span class="arrow">↓</span>
-                    <span class="arrow-text">К карте</span>
-                </a>
-            </div>
-        </section>
-
-        <div class="layer-controls">
+        <!-- Панель переключения слоёв (вертикальная) -->
+         <div class="layer-controls">
             <button class="layer-btn active" data-layer="political">Политическая</button>
             <button class="layer-btn" data-layer="geographic">Географическая</button>
             <button class="layer-btn" data-layer="trade">Торговая</button>
             <button class="layer-btn" data-layer="resources">Ресурсы</button>
         </div>
 
-        <section id="map-section" class="map-section">
-            <div id="map">
-                <div class="map-placeholder">
-                    <p>Карта загружается...</p>
-                    <button id="test-btn">Нажми меня</button>
-                </div>
-            </div>
-        </section>
+        <!-- Заглушки для будущих панелей (список провинций, легенда) -->
+        <div class="info-panel-placeholder" id="province-list-panel">
+            <h3>Список провинции</h3>
+            <div class="placeholder-content">(скоро здесь будет список)</div>
+        </div>
+        <div class="legend-placeholder" id="legend-panel">
+            <h3>Условные обозначения</h3>
+            <div class="placeholder-content">(скоро будет легенда)</div>
+        </div>
 
-        <footer>
-            <p>Fauxlore Project © 2026</p>
-        </footer>
+          <!-- Контейнер карты -->
+           <div id="map"></div>
 
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script type="module" src="src/js/main.js"></script>
