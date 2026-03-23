@@ -3,9 +3,9 @@ import { getIcon } from "./icons";
 
 // Функция, которая будет вызвана при клике на маркер
 function showObjectInfo(obj) {
-    const panel = document.getElementById('Info-panel');
+    const panel = document.getElementByid('info-panel');
     if (!panel) return;
-}
+
   // Панель данных объекта
   panel.innerHTML = `
     <div class="info-panel-header">
@@ -23,7 +23,10 @@ function showObjectInfo(obj) {
         panel.style.display = 'none';
     });
 
-function translateType(type) {
+    panel.style.display = 'block';
+}
+
+function translateType(typeKey) {
     const type = {
         trade_center_1: 'Торговый центр (I уровень)',
         trade_center_2: 'Торговый центр (II уровень)',
@@ -34,7 +37,7 @@ function translateType(type) {
         capital: 'Столица',
         port: 'Порт'
     };
-    return types[type] || type;
+    return types[type] || typeKey;
 }
 
 export function addMarkers(map) {
@@ -52,6 +55,6 @@ export function addMarkers(map) {
         marker.addTo(markerGroup);
     })
 
-    markerGroup,addTo(map);
+    markerGroup.addTo(map);
     return markerGroup;
 }

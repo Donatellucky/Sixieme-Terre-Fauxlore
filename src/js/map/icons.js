@@ -18,6 +18,6 @@ export function getIcon(type) {
         iconUrl: `src/assets/icons/${filename}`,
         iconSize: [32,32], // размер иконки (подгони под свои PNG)
         iconAnchor: [16,32], // точка привязки (нижний центр)
-        popurAnchor: [0,-32] // смещение попапа
+        popupAnchor: [0,-32] // смещение попапа
     })
 }
