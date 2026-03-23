@@ -492,3 +492,57 @@ body.page-map {
     margin: 0;
     z-index: 1;
 }
+
+/* ===== БЛОК МАРКЕРОВ ===== */
+.page-map .info-panel {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 300px;
+    background: rgba(10, 15, 26, 0.95);
+    backdrop-filter: blur (10px);
+    border: 1px solid var(--color-gold);
+    border-radius: var(--border-radius);
+    padding: 15px;
+    z-index: 1100;
+    color: var(--color-text);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.page-map .info-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-gold);
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+}
+.page-map .info-panel-header h3 {
+    margin: 0;
+    font-family:  'Cinzel', serif;
+    color: var(--color-gold);
+}
+.page-map .close-panel {
+    background: none;
+    border: none;
+    color: var(--color-gold);
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+.page-map .info-panel-content p {
+    margin: 8px 0;
+}
+.page-map .wiki-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: var(--color-gold);
+    text-decoration: none;
+    border: 1px solid var(--color-gold);
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+.page-map .wiki-link:hover {
+    background: var(--color-gold);
+    color: var(--color-bg);
+}
