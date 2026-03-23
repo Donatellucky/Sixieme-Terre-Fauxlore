@@ -6,7 +6,6 @@ export function getIcon(type) {
         castle: 'castle_icon_test.png',
         city_no_wall: 'city_no_wall_icon.png',
         city_with_wall: 'city_with_wall_icon.png',
-        trade_1: 'trade_1_icon.png',
         capital: 'capital_icon.png',
         port: 'port_icon.png',
     };
@@ -16,8 +15,8 @@ export function getIcon(type) {
 
     return L.icon({
         iconUrl: `src/assets/icons/${filename}`,
-        iconSize: [32,32], // размер иконки (подгони под свои PNG)
-        iconAnchor: [16,32], // точка привязки (нижний центр)
-        popupAnchor: [0,-32] // смещение попапа
-    })
+        iconSize: [64, 64],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    });
 }
