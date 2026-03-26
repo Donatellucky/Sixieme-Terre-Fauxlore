@@ -21,7 +21,7 @@ export function initMarkerGroups(map) {
             }
             const marker = L.marker(obj.coords, { icon })
                 .on('click', () => showObjectInfo(obj));
-            marker.type = obj.type;   // добавляем тип
+            marker.type = obj.type;
             marker.addTo(group);
         });
         group.addTo(map);
@@ -36,6 +36,7 @@ export function initSidebar(map) {
     const toggleBtn = document.getElementById('sidebar-toggle');
     const closeBtn = document.getElementById('sidebar-close');
 
+    // Открытие/закрытие панели
     if (toggleBtn && sidebar) {
         toggleBtn.addEventListener('click', () => {
             sidebar.classList.add('open');
@@ -47,12 +48,10 @@ export function initSidebar(map) {
         });
     }
 
-    // остальной код (создание чекбоксов) остаётся
-    if (!container) return;
-    // ... создание чекбоксов ...
-}
+    // Если нет контейнера для чекбоксов – выходим
     if (!container) return;
 
+    // Уникальные типы маркеров
     const types = [...new Set(mapObjects.map(obj => obj.type))];
     types.forEach(type => {
         const label = document.createElement('label');
