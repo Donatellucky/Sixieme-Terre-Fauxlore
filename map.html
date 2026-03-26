@@ -13,7 +13,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     
 </head>
-    <body class="page-map">
+    <class="page-map">
+        <button id="sidebar-toggle" class="sidebar-toggle">☰</button>
         <!-- Мини-шапка: только логотип и ссылка на главную -->
         <div class="map-header">
             <p class="site-subtitle">Fauxlore Interactive</p>
@@ -42,6 +43,30 @@
 
           <!-- Контейнер карты -->
            <div id="map"></div>
+
+           <!-- Панель с вкладками -->
+            <div id="sidebar" class="sidebar">
+                <div class="sidebar-header">
+                    <h3>Управление картой</h3>
+                    <button id="sidebar-close">✖</button>
+                </div>
+                <div class="sidebar-content">
+                    <div class="filter-section">
+                        <h4>Маркеры</h4>
+                        <div id="marker-filters">
+                             <!-- сюда динамически добавим чекбоксы -->
+                        </div>
+                    </div>
+                    <div class="filter-section">
+                        <h4>Провинции</h4>
+                        <div id="placeholder">Список провинции (скоро)</div>
+                    </div>
+                    <div class="filter-section">
+                        <h4>Легенда</h4>
+                        <div class="placeholder">Условные обозначения (скоро)</div>
+                    </div>
+                </div>
+            </div>
 
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script type="module" src="src/js/main.js"></script>

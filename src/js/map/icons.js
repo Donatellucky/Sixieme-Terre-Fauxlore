@@ -1,9 +1,9 @@
 export function getIcon(type) {
     const iconMap = {
-        trade_1: 'trade_1_icon.png',
-        trade_2: 'trade_2_icon.png',
-        trade_3: 'trade_3_icon.png',
-        castle: 'castle_icon_test.png',
+        trade_1: 'trade_1_icon.svg',
+        trade_2: 'trade_2_icon.svg',
+        trade_3: 'trade_3_icon.svg',
+        castle: 'castle_icon.svg',
         city_no_wall: 'city_no_wall_icon.png',
         city_with_wall: 'city_with_wall_icon.png',
         capital: 'capital_icon.png',

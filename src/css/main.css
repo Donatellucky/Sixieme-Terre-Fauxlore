@@ -546,3 +546,97 @@ body.page-map {
     background: var(--color-gold);
     color: var(--color-bg);
 }
+
+/* ===== ПАНЕЛЬ ВКЛАДОК: КНОПКА ОТКРЫТИЯ, ПАНЕЛЬ ===== */
+.sidebar-toggle {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 1100;
+    background: var(--color-surface);
+    border: 1px solid var(--color-gold);
+    color: var(--color-gold);
+    font-size: 1,5rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+    transition: all 0.2s;
+}
+.sidebar-toggle:hover {
+    background: var(--color-gold);
+    color: var(--color-bg);
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -320px; /* спрятана за экраном */
+    width: 300px;
+    height: 100%;
+    background: rgba(10, 15, 26, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 1px solid var(--color-gold);
+    z-index: 1200;
+    transition: left 0.3 ease;
+    display: flex;
+    flex-direction: column;
+    color: var(--color-text);
+}
+.sidebar.open {
+    left: 0;
+}
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--color-gold);
+}
+.sidebar-header h3 {
+    margin: 0;
+    font-family: 'Cinzel', serif;
+    color: var(--color-gold);
+}
+#sidebar-close {
+    background: none;
+    border: none;
+    color: var(--color-gold);
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+.sidebar-content {
+    padding: 1rem;
+    overflow-y: auto;
+    flex: 1;
+}
+.filter-section {
+    margin-bottom: 2rem;
+}
+.filter-section h4 {
+    font-family: 'Cinzel, serif';
+    color: var(--color-gold);
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(201, 164, 91, 0.3);
+    padding-bottom: 0.2rem;
+}
+.filter-section label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+.filter-section input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--color-gold);
+}
+.placeholder {
+    color: #aaa;
+    font-size: italic;
+}
