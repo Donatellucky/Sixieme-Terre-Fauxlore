@@ -9,4 +9,5 @@ document.addEventListener('DOMContentLoaded', function() {
     const map = initFauxloreMap();
     initLayerControls(map);
     addMarkers(map);
+    initSidebar(map);
 });

@@ -32,6 +32,25 @@ export function initMarkerGroups(map) {
 
 export function initSidebar(map) {
     const container = document.getElementById('marker-filters');
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('sidebar-toggle');
+    const closeBtn = document.getElementById('sidebar-close');
+
+    if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+        });
+    }
+    if (closeBtn && sidebar) {
+        closeBtn.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+        });
+    }
+
+    // остальной код (создание чекбоксов) остаётся
+    if (!container) return;
+    // ... создание чекбоксов ...
+}
     if (!container) return;
 
     const types = [...new Set(mapObjects.map(obj => obj.type))];
