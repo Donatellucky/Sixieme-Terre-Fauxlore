@@ -1,29 +1,33 @@
-import { mapObject, mapObjects } from '../data/objects.js'
+import { mapObjects } from '../data/objects.js';
+import { getIcon } from '../map/icons.js';
+import { showObjectInfo, translateType } from '../map/markers.js';
 
-let markerGroup = {};  // для хранения групп маркеров по типам
+let markerGroups = {};
 
-// Создание групп маркеров по типам
 export function initMarkerGroups(map) {
-    // Группируем объекты по типу
     const groups = {};
     mapObjects.forEach(obj => {
         if (!groups[obj.type]) groups[obj.type] = [];
         groups[obj.type].push(obj);
     });
 
-    // Для каждого типа создаём слой и добавляем на карту
     for (const [type, objects] of Object.entries(groups)) {
         const group = L.layerGroup();
         objects.forEach(obj => {
-            const marker = L.marker(obj.coords, {icon: geticon(obj.type) })
-            .on('click', () => showObjectInfo(obj));
+            const icon = getIcon(obj.type);
+            if (!icon) {
+                console.warn(`Иконка для ${obj.type} не найдена`);
+                return;
+            }
+            const marker = L.marker(obj.coords, { icon })
+                .on('click', () => showObjectInfo(obj));
+            marker.type = obj.type;   // добавляем тип
             marker.addTo(group);
         });
         group.addTo(map);
-        markerGroup[type] = group
+        markerGroups[type] = group;
     }
-
-    return markerGroup;
+    return markerGroups;
 }
 
 export function initSidebar(map) {
@@ -38,9 +42,8 @@ export function initSidebar(map) {
         cb.checked = true;
         cb.addEventListener('change', (e) => {
             const isVisible = e.target.checked;
-            // Находим все маркеры этого типа и управляем их видимостью
             map.eachLayer(layer => {
-                if (layer instanceof L.Marker && layer.options.icon?.options?.iconUrl?.includes(type)) {
+                if (layer instanceof L.Marker && layer.type === type) {
                     if (isVisible) map.addLayer(layer);
                     else map.removeLayer(layer);
                 }
@@ -52,13 +55,9 @@ export function initSidebar(map) {
     });
 }
 
-// Обновление видимости группы
-export function setMarkerVisibility(type, visible) {
+export function setMarkerVisibility(map, type, visible) {
     if (markerGroups[type]) {
-        if (visible) {
-            markerGroups[type].addTo(window.fauxloreMap);
-         } else {
-            markerGroups[type].remove();
-        }
+        if (visible) markerGroups[type].addTo(map);
+        else markerGroups[type].remove();
     }
 }

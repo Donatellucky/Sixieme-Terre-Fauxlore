@@ -55,3 +55,5 @@ export function addMarkers(map) {
     markerGroup.addTo(map);
     return markerGroup;
 }
+
+export { showObjectInfo, translateType };
