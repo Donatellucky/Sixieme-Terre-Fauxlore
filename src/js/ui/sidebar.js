@@ -1,6 +1,7 @@
 import { mapObjects } from '../data/objects.js';
 import { getIcon } from '../map/icons.js';
 import { showObjectInfo, translateType } from '../map/markers.js';
+import { getProvincesList, highlightProvinceById } from '../data/provinces.js';
 
 let markerGroups = {};
 
@@ -78,4 +79,44 @@ export function setMarkerVisibility(map, type, visible) {
         if (visible) markerGroups[type].addTo(map);
         else markerGroups[type].remove();
     }
+}
+
+export function updateProvincesList(map) {
+    const container = document.getElementById('province-list-panel');
+    if (!container) return;
+
+    const provinces = getProvincesList();
+    if (!provinces.length) {
+        container.innerHTML = `<h3>Список провинций</h3><div class="placeholder">Загрузка...</div>`;
+        return;
+    }
+
+    const listHtml = `
+        <h3>Список провинций</h3>
+        <div class="province-list">
+            ${provinces.map(prov => `
+                <div class="province-item" data-id="${prov.properties.id}">
+                    <strong>${prov.properties.name}</strong> (${prov.properties.id})
+                </div>
+            `).join('')}
+        </div>
+    `;
+    container.innerHTML = listHtml;
+
+    // Добавляем обработчики кликов
+    document.querySelectorAll('.province-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const id = item.dataset.id; // переменная item доступна
+            highlightProvinceById(id);
+            if (window.provinceLayer) {
+                window.provinceLayer.eachLayer(layer => {
+                    if (layer.feature.properties.id === id) {
+                        const bounds = layer.getBounds();
+                        console.log('Bounds for', id, bounds);
+                        map.fitBounds(bounds);
+                    }
+                });
+            }
+        });
+    });
 }
