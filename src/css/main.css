@@ -56,6 +56,10 @@ header {
     overflow: hidden;
     position: relative;
     margin-bottom: 2rem;
+    .leaflet-image-layer {
+    image-rendering: crisp-edges;   /* или pixelated */
+    image-rendering: pixelated;
+}
 }
 
 /* ===== БЛОК 7: ЗАГЛУШКА КАРТЫ ===== */

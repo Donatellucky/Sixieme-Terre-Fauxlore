@@ -4,6 +4,7 @@ import { addMarkers } from "./map/markers.js";
 import { initSidebar } from "./ui/sidebar.js";
 import { loadProvinces } from "./data/provinces.js";
 import { updateProvincesList } from "./ui/sidebar.js";
+import { initFilters } from "./ui/sidebar.js";
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Sixième Terre запущен');
@@ -15,5 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Загружаем провинции и после завершения обновляем список
     loadProvinces(map).then(() => {
         updateProvincesList(map);
+        initFilters(provinceFeatures); //передаем массив провинции
     });
 });

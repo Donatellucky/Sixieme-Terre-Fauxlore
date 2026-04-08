@@ -120,3 +120,72 @@ export function updateProvincesList(map) {
         });
     });
 }
+
+// Глобальное хранилище активных фильтров
+let activeFilters = { country: new Set(), zone: new Set(), relig: new Set(), resource: new Set() };
+
+// Сбор уникальных значений из загруженных провинций
+function collectFilterValues(provinces) {
+    const values = { country: new Set(), zone: new Set(), relig: new Set(), resource: new Set() };
+    provinces.forEach(f => {
+        if (f.properties.country) values.country.add(f.properties.country);
+        if (f.properties.zone) values.zone.add(f.properties.zone);
+        if (f.properties.relig) values.relig.add(f.properties.relig);
+        if (f.properties.resource) values.resource.add(f.properties.resource);
+    });
+    return values;
+}
+
+// Применение фильтров к слою провинций
+function applyFilters() {
+    if (!window.provinceLayer) return;
+    window.provinceLayer.eachLayer(layer => {
+        const props = layer.feature.properties;
+        let visible = true;
+        if (activeFilters.country.size && !activeFilters.country.has(props.country)) visible = false;
+        if (activeFilters.zone.size && !activeFilters.zone.has(props.zone)) visible = false;
+        if (activeFilters.relig.size && !activeFilters.relig.has(props.relig)) visible = false;
+        if (activeFilters.resource.size && !activeFilters.resource.has(props.resource)) visible = false;
+        if (visible) {
+            if (!window.provinceLayer.hasLayer(layer)) window.provinceLayer.addLayer(layer);
+        } else {
+            if (window.provinceLayer.hasLayer(layer)) window.provinceLayer.removeLayer(layer);
+        }
+    });
+}
+
+// Создание секции чекбоксов
+function createFilterSection(container, title, filterKey, values) {
+    const section = document.createElement('div');
+    section.className = 'filter-section';
+    section.innerHTML = `<h4>${title}</h4>`;
+    const sorted = Array.from(values).sort();
+    sorted.forEach(val => {
+        const label = document.createElement('label');
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.value = val;
+        cb.checked = true;
+        cb.addEventListener('change', () => {
+            if (cb.checked) activeFilters[filterKey].add(val);
+            else activeFilters[filterKey].delete(val);
+            applyFilters();
+        });
+        label.appendChild(cb);
+        label.appendChild(document.createTextNode(val));
+        section.appendChild(label);
+    });
+    container.appendChild(section);
+}
+
+// Инициализация фильтров (вызывается после загрузки провинций)
+export function initFilters(provinces) {
+    const container = document.getElementById('filters-container');
+    if (!container) return;
+    container.innerHTML = '';
+    const values = collectFilterValues(provinces);
+    if (values.country.size) createFilterSection(container, 'Страны', 'country', values.country);
+    if (values.zone.size) createFilterSection(container, 'Торговые зоны', 'zone', values.zone);
+    if (values.relig.size) createFilterSection(container, 'Религии', 'relig', values.relig);
+    if (values.resource.size) createFilterSection(container, 'Ресурсы', 'resource', values.resource);
+}
