@@ -56,56 +56,11 @@ header {
     overflow: hidden;
     position: relative;
     margin-bottom: 2rem;
-    .leaflet-image-layer {
-    image-rendering: crisp-edges;   /* или pixelated */
+}
+/* Стили для чёткости картинки – отдельно */
+#map .leaflet-image-layer {
+    image-rendering: crisp-edges;
     image-rendering: pixelated;
-}
-}
-
-/* ===== БЛОК 7: ЗАГЛУШКА КАРТЫ ===== */
-.map-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    padding: 2rem;
-    text-align: center;
-    background: rgba(10, 15, 26, 0.7);
-    backdrop-filter: blur(5px);
-}
-
-.map-placeholder p {
-    font-size: 2rem;
-    font-family: 'Cinzel', serif;
-    color: var(--color-gold);
-    margin-bottom: 2rem;
-    text-shadow: 0 0 20px rgba(201, 164, 91, 0.5);
-}
-
-/* ===== БЛОК 8: КНОПКА ===== */
-#test-btn {
-    background: transparent;
-    border: 2px solid var(--color-gold);
-    color: var(--color-gold);
-    font-family: 'Cinzel', serif;
-    font-size: 1.2rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 1rem 3rem;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background: rgba(201, 164, 91, 0.1);
-    box-shadow: 0 4px 15px rgba(201, 164, 91, 0.3);
-}
-
-#test-btn:hover {
-    background: var(--color-gold);
-    color: var(--color-bg);
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(201, 164, 91, 0.6);
 }
 
 /* ===== БЛОК 9: ПОДВАЛ ===== */
@@ -145,15 +100,6 @@ footer {
 
     #map {
         height: 400px;
-    }
-
-    .map-placeholder p {
-        font-size: 1.5rem;
-    }
-
-    #test-btn {
-        padding: 0.8rem 2rem;
-        font-size: 1rem;
     }
 }
 
@@ -277,64 +223,38 @@ footer {
 /* ===== БЛОК 13: СТИЛИ ДЛЯ LEAFLET ===== */
 .leaflet-container {
     background: var(--color-surface);
-
-    .leaflet-control-attribution {
-        background: rgba(10, 15, 26, 0.7);
-        color: #8a9bb5 !important;
-        font-size: 0.8rem !important;
-        backdrop-filter: blur(5px);
-        border-radius: 20px !important;
-        padding: 2px 8px !important;
-    }
-
-    .leaflet-control-zoom {
-        border: 2px solid var(--color-gold) !important;
-        border-radius: 10px !important;
-        overflow: hidden;
-    }
-
-    .leaflet-control-zoom a {
-        background: var(--color-surface) !important;
-        color: var(--color-gold) !important;
-        border: none !important;
-    }
-
-    .leaflet-control-zoom a:hover {
-        background: var(--color-gold) !important;
-        color: var(--color-bg) !important;
-    }
 }
-
-/* ===== БЛОК 14: СТИЛИ ДЛЯ КНОПОК ПЕРЕКЛЮЧЕНИЯ СЛОЕВ ===== */
-.layer-controls {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-    display: flex;
-    gap: 10px;
-    background: rgba(10, 15, 26, 0.8);
-    padding: 10px;
-    border-radius: var(--border-radius);
+.leaflet-control-attribution {
+    background: rgba(10, 15, 26, 0.7) !important;
+    color: #8a9bb5 !important;
+    font-size: 0.8rem !important;
     backdrop-filter: blur(5px);
-    border: 1px solid var(--color-gold);
+    border-radius: 20px !important;
+    padding: 2px 8px !important;
 }
-
-.layer-btn {
-    background: transparent;
-    border: 1px solid var(--color-gold);
-    color: var(--color-text);
-    padding: 8px 16px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-family: 'Cinzel', serif;
-    transition: all 0.3;
+.leaflet-control-zoom {
+    position: absolute !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+    border: 2px solid var(--color-gold) !important;
+    border-radius: 10px !important;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
 }
-
-.layer-btn.active,
-.layer-btn:hover {
-    background: var(--color-gold);
-    color: var(--color-bg);
+.leaflet-control-zoom a {
+    background: var(--color-surface) !important;
+    color: var(--color-gold) !important;
+    border: none !important;
+    width: 36px !important;
+    height: 36px !important;
+    line-height: 36px !important;
+    font-size: 18px !important;
+    transition: all 0.2s;
+}
+.leaflet-control-zoom a:hover {
+    background: var(--color-gold) !important;
+    color: var(--color-bg) !important;
 }
 
 /* ===== СПЕЦИФИЧНЫЕ СТИЛИ ДЛЯ ГЛАВНОЙ СТРАНИЦЫ ===== */
@@ -403,20 +323,6 @@ body.page-map {
     padding: 0;
     overflow: hidden;
 }
-.page-map .map-header {
-    position: absolute;
-    top: 10px;
-    left: 20px;
-    z-index: 1000;
-    background: rgba(10, 15, 26, 0.6);
-    backdrop-filter: blur(5px);
-    border-radius: 20px;
-    padding: 5px 15px;
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    border: 1px solid var(--color-gold);
-}
 .page-map .site-subtitle {
     margin: 0;
     font-size: 0.9rem;
@@ -428,37 +334,6 @@ body.page-map {
 }
 .page-map .back-link:hover {
     text-decoration: underline;
-}
-.page-map .layer-controls {
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    background: rgba(10, 15, 26, 0.85);
-    padding: 15px 10px;
-    border-radius: var(--border-radius);
-    backdrop-filter: blur(8px);
-    border: 1px solid var(--color-gold);
-    z-index: 1000;
-}
-.page-map .layer-btn {
-    background: transparent;
-    border: 1px solid var(--color-gold);
-    color: var(--color-gold);
-    padding: 8px 16px;
-    border-radius: 30px;
-    cursor: pointer;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.9rem;
-    white-space: nowrap;
-}
-.page-map .layer-btn.active,
-.page-map .layer-btn:hover {
-    background: var(--color-gold);
-    color: var(--color-bg);
 }
 .page-map .info-panel-placeholder,
 .page-map .legend-placeholder {
@@ -643,4 +518,93 @@ body.page-map {
 .placeholder {
     color: #aaa;
     font-style: italic;
+}
+
+/* Стили для кнопок слоёв внутри боковой панели (чтобы выглядели как остальные пункты) */
+.sidebar .layer-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.sidebar .layer-btn {
+    background: transparent;
+    border: 1px solid var(--color-gold);
+    color: var(--color-gold);
+    padding: 8px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    text-align: left;
+    transition: all 0.2s;
+}
+.sidebar .layer-btn.active,
+.sidebar .layer-btn:hover {
+    background: var(--color-gold);
+    color: var(--color-bg);
+}
+
+/* Боковая панель на компьютере, расположение */
+/* Боковая панель на компьютере */
+@media (min-width: 768px) {
+    .sidebar {
+        position: relative;
+        left: 0 !important;
+        width: 300px;
+        height: 100vh;
+        float: left;
+        transform: none !important;
+        transition: width 0.3s ease; /* Плавное изменение ширины */
+    }
+    .sidebar-toggle {
+        display: block; /* Показываем кнопку на ПК */
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1201;
+    }
+    /* Стиль для закрытой панели */
+    .sidebar.closed {
+        width: 0;
+        overflow: hidden;
+        border-right: none;
+    }
+    .page-map #map {
+        width: calc(100% - 300px);
+        transition: width 0.3s ease;
+    }
+    .page-map .sidebar.closed ~ #map {
+        width: 100%;
+    }
+    /* Корректируем позиционирование элементов при открытой/закрытой панели */
+    .page-map .info-panel-placeholder,
+    .page-map .legend-placeholder,
+    .page-map .info-panel {
+        left: 320px;
+        transition: left 0.3s ease;
+    }
+    .page-map .sidebar.closed ~ .info-panel-placeholder,
+    .page-map .sidebar.closed ~ .legend-placeholder,
+    .page-map .sidebar.closed ~ .info-panel {
+        left: 20px;
+    }
+    .page-map .map-header {
+        left: auto;
+        right: 20px;
+        top: 20px;
+        transition: right 0.3s ease;
+    }
+    .page-map .sidebar.closed ~ .map-header {
+        right: 20px;
+    }
+}
+
+/* Гарантированное отображение кнопок зума */
+.leaflet-control-zoom {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 10000 !important;
+    opacity: 1 !important;
+    display: block !important;
 }

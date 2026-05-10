@@ -15,20 +15,7 @@
 </head>
     <body class="page-map">
         <button id="sidebar-toggle" class="sidebar-toggle">☰</button>
-        <!-- Мини-шапка: только логотип и ссылка на главную -->
-        <div class="map-header">
-            <p class="site-subtitle">Fauxlore Interactive</p>
-            <a href="index.html" class="back-link">На главную</a>
-        </div>
-
-        <!-- Панель переключения слоёв (вертикальная) -->
-         <div class="layer-controls">
-            <button class="layer-btn active" data-layer="political">Политическая</button>
-            <button class="layer-btn" data-layer="geographic">Географическая</button>
-            <button class="layer-btn" data-layer="trade">Торговая</button>
-            <button class="layer-btn" data-layer="resources">Ресурсы</button>
-        </div>
-
+        <!-- Мини-шапка: только логотип-->
         <div class="legend-placeholder" id="legend-panel">
             <h3>Условные обозначения</h3>
             <div class="placeholder-content">(скоро будет легенда)</div>
@@ -45,6 +32,18 @@
                     <h3>Управление картой</h3>
                     <button id="sidebar-close">✖</button>
                 </div>
+            <!-- Панель переключения слоёв (вертикальная) -->
+             <div class="sidebar-content">
+                <div class="filter-section">
+                    <h4>Слои карты</h4>
+                    <div class="layer-controls">
+                        <button class="layer-btn active" data-layer="political">Политическая</button>
+                        <button class="layer-btn" data-layer="geographic">Географическая</button>
+                        <button class="layer-btn" data-layer="trade">Торговая</button>
+                        <button class="layer-btn" data-layer="resources">Ресурсы</button>
+                    </div>
+                </div>
+            </div>
                 <div class="sidebar-content">
                     <div class="filter-section">
                         <h4>Маркеры</h4>
@@ -67,8 +66,13 @@
                         <h4>Легенда</h4>
                         <div class="placeholder">Условные обозначения (скоро)</div>
                     </div>
+                    <div class="filter-section" style="margin-top: auto;">
+                        <p class="site-subtitle">Fauxlore Interactive</p>
+                        <a href="index.html" class="back-link">На главную</a>
+                    </div>
                 </div>
             </div>
+        </div>
 
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script type="module" src="src/js/main.js"></script>

@@ -6,7 +6,10 @@ export default function initFauxloreMap() {
     const map = L.map('map', {
         crs: L.CRS.Simple,
         minZoom: -2,
-        maxZoom: 3
+        maxZoom: 3,
+        zoomControl: true,
+        maxBounds: bounds,
+        maxBoundsViscosity: 1.0
     });
     map.fitBounds(bounds);
     window.fauxloreMap = map;

@@ -109,28 +109,34 @@ export async function loadProvinces(map) {
         showProvinceInfo(feature.properties);
     });
 
-    // --- ОБРАБОТЧИК НАВЕДЕНИЯ ---
-    layer.on('mouseover', () => {
-        if (layer !== currentHighlight) {
-            // Запоминаем, что стиль изменён при наведении
-            layer.setStyle({
-                weight: 2.5,
-                color: '#ff6666',
-                fillOpacity: 0.6
-            });
-        }
-    });
-    layer.on('mouseout', () => {
-        if (layer !== currentHighlight) {
-            // Возвращаем обычный стиль (цвет и заливку)
-            layer.setStyle({
-                color: '#8b0000',
-                fillOpacity: 0.4
-            });
-            // Толщина должна соответствовать текущему зуму
-            updateOutlineWidthForLayer(layer);
-        }
-    });
+// --- ОБРАБОТЧИК НАВЕДЕНИЯ ---
+layer.on('mouseover', () => {
+    // Если есть подсвеченный полигон, но он не текущий, сбросить его
+    if (currentHighlight && currentHighlight !== layer) {
+        currentHighlight.setStyle({
+            color: '#8b0000',
+            fillOpacity: 0.4
+        });
+        updateOutlineWidthForLayer(currentHighlight);
+        currentHighlight = null;
+    }
+    if (layer !== currentHighlight) {
+        layer.setStyle({
+            weight: 2.5,
+            color: '#ff6666',
+            fillOpacity: 0.6
+        });
+    }
+});
+layer.on('mouseout', () => {
+    if (layer !== currentHighlight) {
+        layer.setStyle({
+            color: '#8b0000',
+            fillOpacity: 0.4
+        });
+        updateOutlineWidthForLayer(layer);
+    }
+});
 }
     }).addTo(map);
 
