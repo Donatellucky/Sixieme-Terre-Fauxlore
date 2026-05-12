@@ -1,13 +1,11 @@
 import initFauxloreMap from "./map/init.js";
 import { initLayerControls } from "./ui/layer-control.js";
 import { addMarkers } from "./map/markers.js";
-import { initSidebar } from "./ui/sidebar.js";
-import { loadProvinces } from "./data/provinces.js";
-import { updateProvincesList } from "./ui/sidebar.js";
-import { initFilters } from "./ui/sidebar.js";
+import { initSidebar, updateProvincesList, initFilters } from "./ui/sidebar.js";
+import { loadProvinces, getProvincesList } from "./data/provinces.js";
 import { loadBaseLayer } from "./map/layers.js";
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     console.log('Sixième Terre запущен');
     const map = initFauxloreMap();
     initLayerControls(map);
@@ -15,19 +13,78 @@ document.addEventListener('DOMContentLoaded', function() {
     addMarkers(map);
     initSidebar(map);
     
-    // Загружаем провинции и после завершения обновляем список
-    loadProvinces(map).then(() => {
-        updateProvincesList(map);
-        initFilters(provinceFeatures); //передаем массив провинции
-    });
+    // Загружаем провинции
+    await loadProvinces(map);
+    const provinceFeatures = getProvincesList();
+    
+    // Обновляем список провинций в НИЖНЕЙ панели
+    updateProvincesList(map, 'bottom');
+    
+    // Инициализируем фильтры
+    if (typeof initFilters === 'function') {
+        initFilters(provinceFeatures);
+    }
+
+    // ===== УПРАВЛЕНИЕ ПАНЕЛЯМИ (ФИКС) =====
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('sidebar-toggle');
-    
+    const sidebarClose = document.getElementById('sidebar-close');
+    const bottomToggle = document.getElementById('bottom-panel-toggle');
+    const bottomPanel = document.querySelector('.bottom-panel');
+    const legendToggle = document.getElementById('legend-toggle');
+    const legendPanel = document.getElementById('legend-panel');
+    const legendClose = document.getElementById('legend-close');
+
+    // Закрыть все панели
+    function closeAllPanels() {
+        if (sidebar) sidebar.classList.remove('open');
+        if (bottomPanel) bottomPanel.classList.remove('open');
+        if (legendPanel) legendPanel.classList.remove('open');
+    }
+
+    // Открыть только одну панель (остальные закрыть)
+    function openOnlyThisPanel(panelToOpen) {
+        closeAllPanels();
+        if (panelToOpen) panelToOpen.classList.add('open');
+    }
+
+    // Переключить панель (открыть/закрыть), при этом другие закрываются
+    function toggleThisPanel(panel) {
+        if (panel.classList.contains('open')) {
+            closeAllPanels();
+        } else {
+            openOnlyThisPanel(panel);
+        }
+    }
+
+    // Гамбургер
     if (sidebar && toggleBtn) {
         toggleBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('closed');
-        // Можно менять иконку кнопки, если нужно
-        // toggleBtn.textContent = sidebar.classList.contains('closed') ? '☰' : '✕';
-    });
-}
+            toggleThisPanel(sidebar);
+        });
+    }
+    if (sidebarClose && sidebar) {
+        sidebarClose.addEventListener('click', () => {
+            closeAllPanels();
+        });
+    }
+
+    // Нижняя панель (список провинций)
+    if (bottomToggle && bottomPanel) {
+        bottomToggle.addEventListener('click', () => {
+            toggleThisPanel(bottomPanel);
+        });
+    }
+
+    // Легенда (справа)
+    if (legendToggle && legendPanel) {
+        legendToggle.addEventListener('click', () => {
+            toggleThisPanel(legendPanel);
+        });
+    }
+    if (legendClose && legendPanel) {
+        legendClose.addEventListener('click', () => {
+            closeAllPanels();
+        });
+    }
 });

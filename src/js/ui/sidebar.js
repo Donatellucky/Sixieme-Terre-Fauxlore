@@ -33,23 +33,7 @@ export function initMarkerGroups(map) {
 
 export function initSidebar(map) {
     const container = document.getElementById('marker-filters');
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.getElementById('sidebar-toggle');
-    const closeBtn = document.getElementById('sidebar-close');
-
-    // Открытие/закрытие панели
-    if (toggleBtn && sidebar) {
-        toggleBtn.addEventListener('click', () => {
-            sidebar.classList.add('open');
-        });
-    }
-    if (closeBtn && sidebar) {
-        closeBtn.addEventListener('click', () => {
-            sidebar.classList.remove('open');
-        });
-    }
-
-    // Если нет контейнера для чекбоксов – выходим
+    // Инициализация маркеров (чекбоксы)
     if (!container) return;
 
     // Уникальные типы маркеров
@@ -79,46 +63,6 @@ export function setMarkerVisibility(map, type, visible) {
         if (visible) markerGroups[type].addTo(map);
         else markerGroups[type].remove();
     }
-}
-
-export function updateProvincesList(map) {
-    const container = document.getElementById('province-list-panel');
-    if (!container) return;
-
-    const provinces = getProvincesList();
-    if (!provinces.length) {
-        container.innerHTML = `<h3>Список провинций</h3><div class="placeholder">Загрузка...</div>`;
-        return;
-    }
-
-    const listHtml = `
-        <h3>Список провинций</h3>
-        <div class="province-list">
-            ${provinces.map(prov => `
-                <div class="province-item" data-id="${prov.properties.id}">
-                    <strong>${prov.properties.name}</strong> (${prov.properties.id})
-                </div>
-            `).join('')}
-        </div>
-    `;
-    container.innerHTML = listHtml;
-
-    // Добавляем обработчики кликов
-    document.querySelectorAll('.province-item').forEach(item => {
-        item.addEventListener('click', () => {
-            const id = item.dataset.id; // переменная item доступна
-            highlightProvinceById(id);
-            if (window.provinceLayer) {
-                window.provinceLayer.eachLayer(layer => {
-                    if (layer.feature.properties.id === id) {
-                        const bounds = layer.getBounds();
-                        console.log('Bounds for', id, bounds);
-                        map.fitBounds(bounds);
-                    }
-                });
-            }
-        });
-    });
 }
 
 // Глобальное хранилище активных фильтров
@@ -188,4 +132,51 @@ export function initFilters(provinces) {
     if (values.zone.size) createFilterSection(container, 'Торговые зоны', 'zone', values.zone);
     if (values.relig.size) createFilterSection(container, 'Религии', 'relig', values.relig);
     if (values.resource.size) createFilterSection(container, 'Ресурсы', 'resource', values.resource);
+}
+
+
+export function updateProvincesList(map, target = 'sidebar') {
+    let container;
+    if (target === 'sidebar') {
+        container = document.getElementById('province-list-panel-bottom');
+    } else {
+        container = document.getElementById('province-list-panel');
+    }
+    if (!container) {
+        console.warn('Контейнер для списка провинций не найден');
+        return;
+    }
+
+    const provinces = getProvincesList();
+    if (!provinces.length) {
+        container.innerHTML = `<div class="placeholder">Список провинций пуст</div>`;
+        return;
+}
+
+    const listHtml = `
+        <h3>Список провинций</h3>
+        <div class="province-list">
+            ${provinces.map(prov => `
+                <div class="province-item" data-id="${prov.properties.id}">
+                    <strong>${prov.properties.name || prov.properties.id}</strong>
+                </div>
+            `).join('')}
+        </div>
+    `;
+    container.innerHTML = listHtml;
+
+    // Добавляем обработчики кликов
+    document.querySelectorAll('.province-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const id = item.dataset.id;
+            if (window.provinceLayer) {
+                window.provinceLayer.eachLayer(layer => {
+                    if (layer.feature.properties.id === id) {
+                        map.fitBounds(layer.getBounds());
+                        layer.openPopup();
+                    }
+                });
+            }
+        });
+    });
 }

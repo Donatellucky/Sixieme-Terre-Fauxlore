@@ -1,80 +1,91 @@
 <!DOCTYPE html>
 <html lang="ru">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Sixieme Terre</title>
-        <link rel="stylesheet" href="src/css/main.css">
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-        <link rel="icon" href="src/assets/avatarka_faux.png" type="image/png">
-      
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sixieme Terre</title>
+    <link rel="stylesheet" href="src/css/main.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="icon" href="src/assets/avatarka_faux.png" type="image/png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
-    <body class="page-map">
-        <button id="sidebar-toggle" class="sidebar-toggle">☰</button>
-        <!-- Мини-шапка: только логотип-->
-        <div class="legend-placeholder" id="legend-panel">
+<body class="page-map">
+    <button id="sidebar-toggle" class="sidebar-toggle">☰</button>
+
+    <!-- Боковая панель -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h3>Управление картой</h3>
+            <button id="sidebar-close">✖</button>
+        </div>
+        <div class="sidebar-content">
+            <div class="filter-section">
+                <h4>Слои карты</h4>
+                <div class="layer-controls">
+                    <button class="layer-btn active" data-layer="political">Политическая</button>
+                    <button class="layer-btn" data-layer="geographic">Географическая</button>
+                    <button class="layer-btn" data-layer="trade">Торговая</button>
+                    <button class="layer-btn" data-layer="resources">Ресурсы</button>
+                </div>
+            </div>
+            <div class="filter-section">
+                <h4>Маркеры</h4>
+                <div id="marker-filters"></div>
+            </div>
+            <div class="filter-section">
+                <h4>Провинции</h4>
+                <div id="province-list-panel">
+                    <div class="placeholder-content">(список загружается)</div>
+                </div>
+            </div>
+            <div class="filter-section">
+                <h4>Фильтры</h4>
+                <div id="filters-container"></div>
+            </div>
+            <div class="filter-section" style="margin-top: auto;">
+                <p class="site-subtitle">Fauxlore Interactive</p>
+                <a href="index.html" class="back-link">На главную</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Контейнер карты -->
+    <div id="map"></div>
+
+    <!-- Нижняя панель (только список провинций) -->
+    <div class="bottom-panel">
+        <div class="bottom-tabs">
+            <button id="bottom-provinces-btn" class="bottom-tab-btn active">📜 Список провинций</button>
+        </div>
+        <div id="bottom-provinces-content" class="bottom-content visible">
+            <div id="province-list-panel-bottom"></div>
+        </div>
+    </div>
+
+    <!-- Выезжающая панель легенды (справа) -->
+    <div id="legend-panel" class="legend-panel">
+        <div class="legend-header">
             <h3>Условные обозначения</h3>
-            <div class="placeholder-content">(скоро будет легенда)</div>
+            <button id="legend-close" class="legend-close">✖</button>
         </div>
-        <div id="info-panel" class="info-panel" style="display: none;">
+        <div class="legend-content">
+            <p>Здесь будут обозначения...</p>
         </div>
+    </div>
 
-          <!-- Контейнер карты -->
-           <div id="map"></div>
+    <!-- Левая панель инструментов -->
+    <div class="left-tools">
+        <button id="bottom-panel-toggle" class="left-tool-btn" title="Список провинций">📜</button>
+        <button id="legend-toggle" class="left-tool-btn" title="Условные обозначения">📕</button>
+    </div>
 
-           <!-- Панель с вкладками -->
-            <div id="sidebar" class="sidebar">
-                <div class="sidebar-header">
-                    <h3>Управление картой</h3>
-                    <button id="sidebar-close">✖</button>
-                </div>
-            <!-- Панель переключения слоёв (вертикальная) -->
-             <div class="sidebar-content">
-                <div class="filter-section">
-                    <h4>Слои карты</h4>
-                    <div class="layer-controls">
-                        <button class="layer-btn active" data-layer="political">Политическая</button>
-                        <button class="layer-btn" data-layer="geographic">Географическая</button>
-                        <button class="layer-btn" data-layer="trade">Торговая</button>
-                        <button class="layer-btn" data-layer="resources">Ресурсы</button>
-                    </div>
-                </div>
-            </div>
-                <div class="sidebar-content">
-                    <div class="filter-section">
-                        <h4>Маркеры</h4>
-                        <div id="marker-filters">
-                             <!-- сюда динамически добавим чекбоксы -->
-                        </div>
-                    </div>
-                    <div class="filter-section">
-                        <h4>Провинции</h4>
-                        <div id="province-list-panel">
-                            <h3>Список провинций</h3>
-                            <div class="placeholder-content">(скоро здесь будет список)</div>
-                        </div>
-                    </div>
-                    <div class="filter-section">
-                        <h4>Фильтры</h4>
-                        <div id="filters-container"></div>
-                    </div>
-                    <div class="filter-section">
-                        <h4>Легенда</h4>
-                        <div class="placeholder">Условные обозначения (скоро)</div>
-                    </div>
-                    <div class="filter-section" style="margin-top: auto;">
-                        <p class="site-subtitle">Fauxlore Interactive</p>
-                        <a href="index.html" class="back-link">На главную</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- Информационная панель -->
+    <div id="info-panel" class="info-panel" style="display: none;"></div>
 
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-        <script type="module" src="src/js/main.js"></script>
-    </body>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script type="module" src="src/js/main.js"></script>
+</body>
 </html>
