@@ -174,6 +174,7 @@ export function updateProvincesList(map, target = 'sidebar') {
                     if (layer.feature.properties.id === id) {
                         map.fitBounds(layer.getBounds());
                         layer.openPopup();
+                        document.getElementById('map').scrollIntoView({ behavior: 'smooth' });
                     }
                 });
             }

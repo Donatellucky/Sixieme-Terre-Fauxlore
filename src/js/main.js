@@ -25,66 +25,38 @@ document.addEventListener('DOMContentLoaded', async function() {
         initFilters(provinceFeatures);
     }
 
-    // ===== УПРАВЛЕНИЕ ПАНЕЛЯМИ (ФИКС) =====
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.getElementById('sidebar-toggle');
-    const sidebarClose = document.getElementById('sidebar-close');
-    const bottomToggle = document.getElementById('bottom-panel-toggle');
-    const bottomPanel = document.querySelector('.bottom-panel');
-    const legendToggle = document.getElementById('legend-toggle');
-    const legendPanel = document.getElementById('legend-panel');
-    const legendClose = document.getElementById('legend-close');
+// ===== УПРАВЛЕНИЕ ПАНЕЛЯМИ =====
+const sidebar = document.getElementById('sidebar');
+const toggleBtn = document.getElementById('sidebar-toggle');
+const sidebarClose = document.getElementById('sidebar-close');
+const bottomPanel = document.querySelector('.bottom-panel');
+const bottomToggle = document.getElementById('bottom-toggle');
 
-    // Закрыть все панели
-    function closeAllPanels() {
-        if (sidebar) sidebar.classList.remove('open');
-        if (bottomPanel) bottomPanel.classList.remove('open');
-        if (legendPanel) legendPanel.classList.remove('open');
-    }
+function closeAllPanels() {
+    if (sidebar) sidebar.classList.remove('open');
+    if (bottomPanel) bottomPanel.classList.remove('open');
+}
 
-    // Открыть только одну панель (остальные закрыть)
-    function openOnlyThisPanel(panelToOpen) {
+function openOnlyThisPanel(panelToOpen) {
+    closeAllPanels();
+    if (panelToOpen) panelToOpen.classList.add('open');
+}
+
+function toggleThisPanel(panel) {
+    if (panel.classList.contains('open')) {
         closeAllPanels();
-        if (panelToOpen) panelToOpen.classList.add('open');
+    } else {
+        openOnlyThisPanel(panel);
     }
+}
 
-    // Переключить панель (открыть/закрыть), при этом другие закрываются
-    function toggleThisPanel(panel) {
-        if (panel.classList.contains('open')) {
-            closeAllPanels();
-        } else {
-            openOnlyThisPanel(panel);
-        }
-    }
-
-    // Гамбургер
-    if (sidebar && toggleBtn) {
-        toggleBtn.addEventListener('click', () => {
-            toggleThisPanel(sidebar);
-        });
-    }
-    if (sidebarClose && sidebar) {
-        sidebarClose.addEventListener('click', () => {
-            closeAllPanels();
-        });
-    }
-
-    // Нижняя панель (список провинций)
-    if (bottomToggle && bottomPanel) {
-        bottomToggle.addEventListener('click', () => {
-            toggleThisPanel(bottomPanel);
-        });
-    }
-
-    // Легенда (справа)
-    if (legendToggle && legendPanel) {
-        legendToggle.addEventListener('click', () => {
-            toggleThisPanel(legendPanel);
-        });
-    }
-    if (legendClose && legendPanel) {
-        legendClose.addEventListener('click', () => {
-            closeAllPanels();
-        });
-    }
+if (sidebar && toggleBtn) {
+    toggleBtn.addEventListener('click', () => toggleThisPanel(sidebar));
+}
+if (sidebarClose && sidebar) {
+    sidebarClose.addEventListener('click', () => closeAllPanels());
+}
+if (bottomToggle && bottomPanel) {
+    bottomToggle.addEventListener('click', () => toggleThisPanel(bottomPanel));
+}
 });
