@@ -217,7 +217,7 @@ footer {
     height: 70vh;
 }
 
-/* ===== БЛОК 13: СТИЛИ ДЛЯ LEAFLET ===== */
+/* ===== БЛОК 13: СТИЛИ ДЛЯ LEAFLET + Кнопка масштаба ===== */
 .leaflet-container {
     background: var(--color-surface);
 }
@@ -229,6 +229,8 @@ footer {
     border-radius: 20px !important;
     padding: 2px 8px !important;
 }
+
+/* === Кнопки масштаба Leaflet (возвращаем на место) === */
 .leaflet-control-zoom {
     position: absolute !important;
     bottom: 20px !important;
@@ -551,28 +553,174 @@ body.page-map {
     padding-left: 12px;
 }
 /* Кнопка вызова нижней панели (стрелка вниз) */
+/* Кнопка вызова нижней панели (стрелка вниз) */
 .bottom-toggle {
     position: fixed;
     bottom: 20px;
     left: 50%;
-    transform: translateX(-50%);
-    background: var(--color-surface);
-    border: 2px solid var(--color-gold);
-    color: var(--color-gold);
-    font-size: 2rem;
+    transform: translateX(-50%); /* ← ЭТО ГЛАВНОЕ */
     width: 56px;
     height: 56px;
     border-radius: 50%;
+    background: var(--color-surface);
+    border: 2px solid var(--color-gold);
+    color: var(--color-gold);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(5px);
-    transition: all 0.2s;
     z-index: 1100;
+    transition: all 0.2s;
+}
+.bottom-toggle .material-icons {
+    font-size: 28px;
+    line-height: 1;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
 }
 .bottom-toggle:hover {
     background: var(--color-gold);
     color: var(--color-bg);
     transform: translateX(-50%) scale(1.05);
+}
+
+/* ИКОНКИ Material и CSS.gg */
+.material-icons {
+    font-size: 1.2rem;
+    vertical-align: middle;
+}
+.sidebar-toggle .material-icons,
+.left-tool-btn .material-icons,
+.bottom-tab-btn .material-icons {
+    font-size: 1.4rem;
+}
+.gg-menu, gg-close, .gg-list {
+    vertical-align: middle;
+}
+
+/* Шапка боковой панели */
+/* Шапка боковой панели */
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid var(--color-gold);
+}
+.sidebar-header h3 {
+    margin: 0;
+    font-family: 'Cinzel', serif;
+    color: var(--color-gold);
+}
+.sidebar-close {
+    background: none;
+    border: none;
+    color: var(--color-gold);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+}
+.sidebar-close .material-icons {
+    font-size: 24px;
+}
+
+/* Содержимое панели */
+.sidebar-content {
+    padding: 16px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* Футер панели (ссылки) */
+.sidebar-footer {
+    padding: 16px;
+    border-top: 1px solid rgba(201, 164, 91, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.sidebar-link {
+    color: var(--color-gold);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+.sidebar-link:hover {
+    text-decoration: underline;
+}
+
+/* Отступы между секциями внутри боковой панели */
+.filter-section label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 12px;
+    margin-bottom: 8px;
+    background: rgba(22, 32, 46, 0.5);
+    border: 1px solid rgba(201, 164, 91, 0.3);
+    border-radius: 20px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+.filter-section label:hover {
+    background: rgba(201, 164, 91, 0.2);
+    border-color: var(--color-gold);
+    transform: translateX(4px);
+}
+.filter-section input[type="checkbox"] {
+    accent-color: var(--color-gold);
+    width: 18px;
+    height: 18px;
+}
+
+/* Золотая линия-разделитель между секциями (кроме последней) */
+.filter-section:not(:last-of-type) {
+    border-bottom: 1px solid rgba(201, 164, 91, 0.4);
+    padding-bottom: 20px;
+}
+
+/* Стили для ссылок в футере (как кнопки) */
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: transparent;
+    border: 1px solid var(--color-gold);
+    color: var(--color-gold);
+    padding: 10px 12px;
+    border-radius: 40px;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    font-weight: 500;
+    width: 100%;
+    box-sizing: border-box;
+}
+.sidebar-link:hover {
+    background: var(--color-gold);
+    color: var(--color-bg);
+}
+
+/* Футер боковой панели – прижимаем к низу и убираем лишние бордеры */
+.sidebar-footer {
+    margin-top: auto;
+    padding: 20px 0 8px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-top: 1px solid rgba(201, 164, 91, 0.4);
+}
+
+.filter-section:last-of-type {
+    border-bottom: none;
+}
+.sidebar-footer {
+    border-top: none; /* если линия дублируется */
 }

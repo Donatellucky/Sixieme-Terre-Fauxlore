@@ -11,15 +11,28 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href='https://unpkg.com/css.gg@2.0.0/icons/css/all.css' rel='stylesheet'>
 </head>
 <body class="page-map">
-    <button id="sidebar-toggle" class="sidebar-toggle">☰</button>
+    <button id="sidebar-toggle" class="sidebar-toggle">
+        <span class="material-icons">menu</span>
+    </button>
 
+    
+    <!-- Панель Хода и Сезона (правый верхний угол) -->
+     <div class="turn-info">
+        <span>Ход: <span id="turn-number">1</span></span>
+        <span>Сезон: <span id="season-name">Весна</span></span>
+    </div>
+    
     <!-- Боковая панель -->
     <div id="sidebar" class="sidebar">
         <div class="sidebar-header">
             <h3>Управление картой</h3>
-            <button id="sidebar-close">✖</button>
+            <button id="sidebar-close" class="sidebar-close">
+                <span class="material-icons">close</span>
+            </button>
         </div>
         <div class="sidebar-content">
             <div class="filter-section">
@@ -36,18 +49,13 @@
                 <div id="marker-filters"></div>
             </div>
             <div class="filter-section">
-                <h4>Провинции</h4>
-                <div id="province-list-panel">
-                    <div class="placeholder-content">(список загружается)</div>
-                </div>
-            </div>
-            <div class="filter-section">
                 <h4>Фильтры</h4>
                 <div id="filters-container"></div>
             </div>
-            <div class="filter-section" style="margin-top: auto;">
-                <p class="site-subtitle">Fauxlore Interactive</p>
-                <a href="index.html" class="back-link">На главную</a>
+                <div class="sidebar-footer">
+                    <a href="index.html" class="sidebar-link">🏠 На главную</a>
+                    <a href="wiki.html" class="sidebar-link">📖 Вики</a>
+                </div>
             </div>
         </div>
     </div>
@@ -69,18 +77,21 @@
         </div>
     </div>
     <div class="bottom-tabs">
-        <button id="bottom-provinces-btn" class="bottom-tab-btn active">📜 Список провинций</button>
+        <button id="bottom-provinces-btn" class="bottom-tab-btn active">
+            <span class="material-icons">format_list_bulleted</span> Список провинций
+        </button>
     </div>
     <div id="bottom-provinces-content" class="bottom-content visible">
         <div id="province-list-panel-bottom"></div>
     </div>
 </div>
-    </div>
 
     <!-- Информационная панель -->
     <div id="info-panel" class="info-panel" style="display: none;"></div>
     <!-- Кнопка вызова нижней панели -->
-     <button id="bottom-toggle" class="bottom-toggle" title="Открыть список провинций">↓</button>
+     <button id="bottom-toggle" class="bottom-toggle">
+        <span class="material-icons">arrow_downward</span>
+     </button>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script type="module" src="src/js/main.js"></script>

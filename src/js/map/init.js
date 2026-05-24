@@ -11,6 +11,7 @@ export default function initFauxloreMap() {
         maxBounds: bounds,
         maxBoundsViscosity: 1.0
     });
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
     map.fitBounds(bounds);
     window.fauxloreMap = map;
     window.mapBounds = bounds;

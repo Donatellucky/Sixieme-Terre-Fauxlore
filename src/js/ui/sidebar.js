@@ -137,13 +137,13 @@ export function initFilters(provinces) {
 
 export function updateProvincesList(map, target = 'sidebar') {
     let container;
-    if (target === 'sidebar') {
+    if (target === 'bottom') {
         container = document.getElementById('province-list-panel-bottom');
     } else {
         container = document.getElementById('province-list-panel');
     }
     if (!container) {
-        console.warn('Контейнер для списка провинций не найден');
+        console.warn('Контейнер для списка провинций не найден. target:', target);
         return;
     }
 
@@ -151,7 +151,7 @@ export function updateProvincesList(map, target = 'sidebar') {
     if (!provinces.length) {
         container.innerHTML = `<div class="placeholder">Список провинций пуст</div>`;
         return;
-}
+    }
 
     const listHtml = `
         <h3>Список провинций</h3>
@@ -165,7 +165,7 @@ export function updateProvincesList(map, target = 'sidebar') {
     `;
     container.innerHTML = listHtml;
 
-    // Добавляем обработчики кликов
+    // Обработчик клика по провинции в списке
     document.querySelectorAll('.province-item').forEach(item => {
         item.addEventListener('click', () => {
             const id = item.dataset.id;
