@@ -1,5 +1,4 @@
 import { mapObjects } from '../data/objects.js';
-import { getIcon } from '../map/icons.js';
 import { showObjectInfo, translateType } from '../map/markers.js';
 import { getProvincesList, highlightProvinceById } from '../data/provinces.js';
 

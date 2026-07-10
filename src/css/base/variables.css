@@ -1,0 +1,12 @@
+:root {
+    --color-bg: #0a0f1a;
+    --color-surface: #16202e;
+    --color-text: #e0e6f0;
+    --color-gold: #c9a45b;
+    --color-gold-light: #f1dcb7;
+    --color-blue: #2a4c7c;
+    --color-border: #2a3a4a;
+    --header-height: 100px;
+    --footer-height: 60px;
+    --border-radius: 12px;
+}

@@ -8,7 +8,7 @@ window.CONFIG = {
     invertY: false,
     scaleX: 1,
     scaleY: 1,
-    offsetX: 1779,
+    offsetX: 2270,
     offsetY: 0,
     // Дополнительно: можно менять порядок возврата [y, x] или [x, y]
     swapReturn: true, // если true, возвращает [y, x], иначе [x, y]

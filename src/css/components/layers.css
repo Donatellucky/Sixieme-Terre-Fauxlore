@@ -1,0 +1,22 @@
+.tool-panel .layer-btn {
+    background: transparent;
+    border: none;
+    border-left: 3px solid transparent;
+    color: var(--color-text);
+    padding: 8px 12px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    width: 100%;
+    text-align: left;
+}
+.tool-panel .layer-btn:hover {
+    border-left-color: var(--color-gold);
+    background: rgba(201, 164, 91, 0.1);
+}
+.tool-panel .layer-btn.active {
+    border-left-color: var(--color-gold);
+    color: var(--color-gold);
+    font-weight: 600;
+}

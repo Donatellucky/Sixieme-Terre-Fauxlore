@@ -1,5 +1,6 @@
+// src/js/map/markers.js
 import { mapObjects } from "../data/objects.js";
-import { getIcon } from "./icons.js";
+import { createMarker } from "./markerFactory.js";   // ← импорт фабрики
 
 function translateType(typeKey) {
     const types = {
@@ -41,9 +42,9 @@ export function addMarkers(map) {
     const markerGroup = L.layerGroup();
 
     mapObjects.forEach(obj => {
-        const icon = getIcon(obj.type);
+        const icon = createMarker(obj.type);   // ← ЗДЕСЬ БЫЛО getIcon, ИСПРАВИЛ!
         if (!icon) {
-            console.warn(`Иконка для типа ${obj.type} не найдена`);
+            console.warn(`Маркер для типа ${obj.type} не создан`);
             return;
         }
 

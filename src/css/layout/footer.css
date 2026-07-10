@@ -1,0 +1,8 @@
+footer {
+    background: linear-gradient(135deg, var(--color-surface), #0f1724);
+    border-top: 2px solid var(--color-gold);
+    padding: 1.5rem;
+    text-align: center;
+    color: #8a9bb5;
+    font-size: 0.9rem;
+}

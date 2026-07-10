@@ -1,0 +1,51 @@
+.sidebar-toggle {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1100;
+    background: var(--color-surface);
+    border: 1px solid var(--color-gold);
+    color: var(--color-gold);
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 30%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+    transition: all 0.2s;
+}
+.sidebar-toggle:hover {
+    background: var(--color-gold);
+    color: var(--color-bg);
+}
+
+.bottom-toggle {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 56px;
+    height: 56px;
+    border-radius: 30%;
+    background: var(--color-surface);
+    border: 2px solid var(--color-gold);
+    color: var(--color-gold);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1100;
+    transition: all 0.2s;
+}
+.bottom-toggle .material-icons {
+    font-size: 28px;
+    line-height: 1;
+}
+.bottom-toggle:hover {
+    background: var(--color-gold);
+    color: var(--color-bg);
+    transform: translateX(-50%) scale(1.05);
+}
