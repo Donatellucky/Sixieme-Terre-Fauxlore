@@ -213,7 +213,12 @@ function showProvinceInfo(properties) {
             currentHighlight.setStyle({ weight: 1, fillOpacity: 0, color: '#ff0000' });
             currentHighlight = null;
         }
+        window.dispatchEvent(new CustomEvent('province:closed'));
     });
+    const pid = properties.id ?? properties.fid;
+    if (pid != null) {
+        window.dispatchEvent(new CustomEvent('province:opened', { detail: { id: pid } }));
+    }
 }
 
 export function getProvincesList() {

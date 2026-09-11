@@ -1,26 +1,31 @@
 import initFauxloreMap from "./map/init.js";
 import { initLayerControls } from "./ui/layer-control.js";
 import { addMarkers } from "./map/markers.js";
-import { initSidebar, updateProvincesList, initFilters } from "./ui/sidebar.js";
+import { initMarkerGroups, initSidebar, initFilters } from "./ui/sidebar.js";
 import { loadProvinces, getProvincesList } from "./data/provinces.js";
 import { loadBaseLayer } from "./map/layers.js";
+import { openProvincePanel, closeProvincePanel } from "./map/panel.js";
+import { applyProvinceHash, initHashListener } from './ui/url-hash.js';
 
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('Sixième Terre запущен');
     const map = initFauxloreMap();
     initLayerControls(map);
     loadBaseLayer(map, 'src/assets/maps/fauxmap.png');
-    addMarkers(map);
+    
+    // ----- ИНИЦИАЛИЗАЦИЯ ГРУПП МАРКЕРОВ (ДЛЯ ЧЕКБОКСОВ) -----
+    const markerGroups = initMarkerGroups(map);
+    window.markerGroups = markerGroups;
+    // ---------------------------------------------------------
+    
     initSidebar(map);
     
     // Загружаем провинции
     await loadProvinces(map);
+    applyProvinceHash(map);
+    initHashListener(map);
     const provinceFeatures = getProvincesList();
     
-    // Обновляем список провинций в НИЖНЕЙ панели
-    updateProvincesList(map, 'bottom');
-    
-    // Инициализируем фильтры
     if (typeof initFilters === 'function') {
         initFilters(provinceFeatures);
     }
@@ -147,12 +152,9 @@ if (clearCrosshairBtn) {
 const sidebar = document.getElementById('sidebar');
 const toggleBtn = document.getElementById('sidebar-toggle');
 const sidebarClose = document.getElementById('sidebar-close');
-const bottomPanel = document.querySelector('.bottom-panel');
-const bottomToggle = document.getElementById('bottom-toggle');
 
 function closeAllPanels() {
     if (sidebar) sidebar.classList.remove('open');
-    if (bottomPanel) bottomPanel.classList.remove('open');
 }
 
 function openOnlyThisPanel(panelToOpen) {
@@ -173,9 +175,6 @@ if (sidebar && toggleBtn) {
 }
 if (sidebarClose && sidebar) {
     sidebarClose.addEventListener('click', () => closeAllPanels());
-}
-if (bottomToggle && bottomPanel) {
-    bottomToggle.addEventListener('click', () => toggleThisPanel(bottomPanel));
 }
 });
 
@@ -269,3 +268,9 @@ document.addEventListener('click', function(e) {
         });
     }
 });
+
+// ===== КНОПКА ОТКРЫТИЯ ПАНЕЛИ ПРОВИНЦИЙ =====
+const openPanelBtn = document.getElementById('open-province-panel');
+if (openPanelBtn) {
+    openPanelBtn.addEventListener('click', openProvincePanel);
+}

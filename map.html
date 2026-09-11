@@ -16,79 +16,85 @@
     <link href='https://unpkg.com/css.gg@2.0.0/icons/css/all.css' rel='stylesheet'>
 </head>
 <body class="page-map">
-    
-<!-- Левая панель инструментов -->
-<div class="left-tools">
-    <button id="sidebar-toggle" class="left-tool-btn" title="Меню">
-        <span class="material-icons">menu</span>
-    </button>
-    <button id="layers-toggle" class="left-tool-btn" title="Слои">
-        <span class="material-icons">layers</span>
-    </button>
-    <button id="markers-toggle" class="left-tool-btn" title="Маркеры">
-        <span class="material-icons">place</span>
-    </button>
-    <button id="filters-toggle" class="left-tool-btn" title="Фильтры">
-        <span class="material-icons">filter_list</span>
-    </button>
-    <button id="fullscreen-btn" class="left-tool-btn" title="Полноэкранный режим">
-        <span class="material-icons">fullscreen</span>
-    </button>
-    <button id="coords-toggle" class="left-tool-btn" title="Координаты">
-        <span class="material-icons">gps_fixed</span>
-    </button>
-</div>
 
-<!-- Панели, которые выезжают (каждая только одна!) -->
-<div id="layers-panel" class="tool-panel">
-    <div class="filter-section">
-        <h4>Слои карты</h4>
-        <div class="layer-controls">
-            <button class="layer-btn active" data-layer="political">Политическая</button>
-            <button class="layer-btn" data-layer="geographic">Географическая</button>
-            <button class="layer-btn" data-layer="trade">Торговая</button>
-            <button class="layer-btn" data-layer="resources">Ресурсы</button>
+    <!-- ===== ЛЕВАЯ ПАНЕЛЬ ИНСТРУМЕНТОВ (САМАЯ ПЕРВАЯ, ВНЕ ВСЕХ КОНТЕЙНЕРОВ) ===== -->
+    <div class="left-tools">
+        <button id="sidebar-toggle" class="left-tool-btn" title="Меню">
+            <span class="material-icons">menu</span>
+        </button>
+        <button id="layers-toggle" class="left-tool-btn" title="Слои">
+            <span class="material-icons">layers</span>
+        </button>
+        <button id="markers-toggle" class="left-tool-btn" title="Маркеры">
+            <span class="material-icons">place</span>
+        </button>
+        <button id="filters-toggle" class="left-tool-btn" title="Фильтры">
+            <span class="material-icons">filter_list</span>
+        </button>
+        <button id="fullscreen-btn" class="left-tool-btn" title="Полноэкранный режим">
+            <span class="material-icons">fullscreen</span>
+        </button>
+        <button id="coords-toggle" class="left-tool-btn" title="Координаты">
+            <span class="material-icons">gps_fixed</span>
+        </button>
+        <button id="info-toggle" class="left-tool-btn" title="Условные обозначения">
+            <span class="material-icons">info</span>
+        </button>
+    </div>
+
+    <!-- Список провинций -->
+    <button id="open-province-panel" class="open-province-btn" title="Список провинций">
+        <span class="material-icons">auto_stories</span>
+    </button>
+    <!-- ===== ПАНЕЛИ ИНСТРУМЕНТОВ (ВЫЕЗЖАЮЩИЕ) ===== -->
+    <div id="layers-panel" class="tool-panel">
+        <div class="filter-section">
+            <h4>Слои карты</h4>
+            <div class="layer-controls">
+                <button class="layer-btn active" data-layer="political">Политическая</button>
+                <button class="layer-btn" data-layer="geographic">Географическая</button>
+                <button class="layer-btn" data-layer="trade">Торговая</button>
+                <button class="layer-btn" data-layer="resources">Ресурсы</button>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="markers-panel" class="tool-panel">
-    <div class="filter-section">
-        <h4>Маркеры</h4>
-        <div id="marker-filters"></div>
+    <div id="markers-panel" class="tool-panel">
+        <div class="filter-section">
+            <h4>Маркеры</h4>
+            <div id="marker-filters"></div>
+        </div>
     </div>
-</div>
 
-<div id="filters-panel" class="tool-panel">
-    <!-- Сюда динамически будут подгружаться фильтры -->
-</div>
-
-<div id="coords-panel" class="tool-panel">
-    <div class="filter-section">
-        <h4>Координаты</h4>
-        <p id="coords-display" style="font-family: 'Courier New', monospace; font-size: 1.1rem; margin: 8px 0;">
-            X: 0, Y: 0
-        </p>
-        <button id="coords-mode-toggle" class="wiki-link" style="width: 100%; text-align: center; margin-bottom: 6px;">
-            Выкл
-        </button>
-        <button id="copy-coords-btn" class="wiki-link" style="width: 100%; text-align: center;">
-            Копировать
-        </button>
-        <button id="clear-crosshair-btn" class="wiki-link" style="width: 100%; text-align: center; margin-top: 6px;">
-            Сброс
-        </button>
+    <div id="filters-panel" class="tool-panel">
+        <!-- Сюда динамически будут подгружаться фильтры -->
     </div>
-</div>
 
-    
-    <!-- Панель Хода и Сезона (правый верхний угол) -->
-     <div class="turn-info">
+    <div id="coords-panel" class="tool-panel">
+        <div class="filter-section">
+            <h4>Координаты</h4>
+            <p id="coords-display" style="font-family: 'Courier New', monospace; font-size: 1.1rem; margin: 8px 0;">
+                X: 0, Y: 0
+            </p>
+            <button id="coords-mode-toggle" class="wiki-link" style="width: 100%; text-align: center; margin-bottom: 6px;">
+                Выкл
+            </button>
+            <button id="copy-coords-btn" class="wiki-link" style="width: 100%; text-align: center;">
+                Копировать
+            </button>
+            <button id="clear-crosshair-btn" class="wiki-link" style="width: 100%; text-align: center; margin-top: 6px;">
+                Сброс
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== ПАНЕЛЬ ХОДА И СЕЗОНА ===== -->
+    <div class="turn-info">
         <span>Ход: <span id="turn-number">1</span></span>
         <span>Сезон: <span id="season-name">Весна</span></span>
     </div>
-    
-    <!-- Боковая панель -->
+
+    <!-- ===== БОКОВАЯ ПАНЕЛЬ (ГАМБУРГЕР) ===== -->
     <div id="sidebar" class="sidebar">
         <div class="sidebar-header">
             <h3>Навигация</h3>
@@ -97,50 +103,46 @@
             </button>
         </div>
         <div class="sidebar-content">
-                <div class="sidebar-footer">
-                    <a href="index.html" class="sidebar-link">🏠 На главную</a>
-                    <a href="wiki.html" class="sidebar-link">📖 Вики</a>
-                    <a href="stats.html" class="sidebar-link">📊 Статистика</a>
-                    <a href="settings.html" class="sidebar-link">⚙️ Настройки</a>
-                    <a href="admin.html" class="sidebar-link">🔧 Админка</a>
-                </div>
+            <div class="sidebar-footer">
+                <a href="index.html" class="sidebar-link">🏠 На главную</a>
+                <a href="wiki.html" class="sidebar-link">📖 Вики</a>
+                <a href="stats.html" class="sidebar-link">📊 Статистика</a>
+                <a href="settings.html" class="sidebar-link">⚙️ Настройки</a>
+                <a href="admin.html" class="sidebar-link">🔧 Админка</a>
             </div>
         </div>
     </div>
 
-    <!-- Контейнер карты -->
+    <!-- ===== КАРТА ===== -->
     <div id="map"></div>
 
-    <!-- Нижняя панель (только список провинций) -->
-    <div class="bottom-panel">
-        <div class="legend-section">
-        <h4>Условные обозначения</h4>
-        <div class="legend-content-static">
-            <!-- здесь будет статическая легенда -->
-            <p>Список стран:</p>
-            <p>Ресурсы:</p>
-            <p>Религии:</p>
-            <p>Расы:</p>
-            <p>Иконки:</p>
+    <!-- ===== ИНФОРМАЦИОННАЯ ПАНЕЛЬ (ДЛЯ МАРКЕРОВ И ПРОВИНЦИЙ) ===== -->
+    <div id="info-panel" class="info-panel" style="display: none;"></div>
+
+    <!-- ===== ПОЛНОЭКРАННАЯ ПАНЕЛЬ ПРОВИНЦИЙ ===== -->
+<div id="province-panel" class="fullscreen-panel" style="display: none;">
+    <div class="panel-header">
+        <h2>📋 Список провинций</h2>
+        <button id="close-province-panel" class="panel-close-btn">✖</button>
+    </div>
+    <div class="panel-content">
+        <!-- Поиск -->
+        <div class="panel-search">
+            <input type="text" id="panel-search-input" placeholder="Поиск по ID или названию...">
+            <button id="panel-search-mode" class="panel-search-btn">🔍 ID</button>
+            <button id="panel-sort-toggle" class="panel-search-btn">Сорт: ID</button>
+            <button id="panel-search-submit" class="panel-search-btn">🔍 Найти</button>
+            <button id="panel-reset-filters" class="panel-reset-btn">Сбросить фильтры</button>
+            <span id="panel-count" class="panel-count">—</span>
         </div>
-    </div>
-    <div class="bottom-tabs">
-        <button id="bottom-provinces-btn" class="bottom-tab-btn active">
-            <span class="material-icons">format_list_bulleted</span> Список провинций
-        </button>
-    </div>
-    <div id="bottom-provinces-content" class="bottom-content visible">
-        <div id="province-list-panel-bottom"></div>
+        <!-- Фильтры (будут позже) -->
+        <div id="panel-filters-container"></div>
+        <!-- Список провинций -->
+        <div id="panel-province-list" class="panel-province-grid"></div>
     </div>
 </div>
 
-    <!-- Информационная панель -->
-    <div id="info-panel" class="info-panel" style="display: none;"></div>
-    <!-- Кнопка вызова нижней панели -->
-     <button id="bottom-toggle" class="bottom-toggle">
-        <span class="material-icons">arrow_downward</span>
-     </button>
-
+    <!-- ===== СКРИПТЫ ===== -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script type="module" src="src/js/main.js"></script>
 </body>

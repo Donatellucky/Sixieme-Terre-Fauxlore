@@ -1,0 +1,172 @@
+/* ===== ПОЛНОЭКРАННАЯ ПАНЕЛЬ ===== */
+.fullscreen-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 15, 26, 0.97);
+    backdrop-filter: blur(12px);
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+    padding: 30px;
+    overflow-y: auto;
+    animation: panelFadeIn 0.3s ease;
+}
+
+@keyframes panelFadeIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--color-gold);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.panel-header h2 {
+    font-family: 'Cinzel', serif;
+    color: var(--color-gold);
+    font-size: 1.8rem;
+}
+
+.panel-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--color-gold);
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.panel-close-btn:hover {
+    transform: scale(1.1);
+}
+
+.panel-content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.panel-search {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.panel-search input {
+    flex: 1;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--color-gold);
+    border-radius: 30px;
+    color: var(--color-text);
+    font-size: 1rem;
+    min-width: 200px;
+}
+
+.panel-search input:focus {
+    outline: none;
+    border-color: var(--color-gold-light);
+    box-shadow: 0 0 15px rgba(201, 164, 91, 0.2);
+}
+
+.panel-search-btn,
+.panel-reset-btn {
+    background: transparent;
+    border: 1px solid var(--color-gold);
+    color: var(--color-gold);
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.panel-search-btn:hover,
+.panel-reset-btn:hover {
+    background: var(--color-gold);
+    color: var(--color-bg);
+}
+
+.panel-province-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.panel-province-item {
+    background: rgba(22, 32, 46, 0.6);
+    border: 1px solid rgba(201, 164, 91, 0.2);
+    border-radius: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel-province-item:hover {
+    background: rgba(201, 164, 91, 0.2);
+    border-color: var(--color-gold);
+    transform: translateX(6px);
+}
+
+.panel-province-id {
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+.panel-placeholder {
+    text-align: center;
+    color: var(--color-text);
+    opacity: 0.6;
+    padding: 40px;
+    font-size: 1.2rem;
+}
+
+/* Счётчик найденных */
+.panel-count {
+    margin-left: auto;      /* прижать вправо */
+    align-self: center;
+    font-size: 0.9rem;
+    color: var(--color-gold-light);
+    opacity: 0.85;
+    white-space: nowrap;
+}
+
+/* Кастомный скролл для сетки провинций */
+.panel-province-grid {
+    overflow-y: auto;
+    max-height: calc(100vh - 220px);   /* под шапку и поиск */
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-gold) var(--color-surface);
+    padding-right: 6px;
+}
+.panel-province-grid::-webkit-scrollbar {
+    width: 8px;
+}
+.panel-province-grid::-webkit-scrollbar-track {
+    background: var(--color-surface);
+    border-radius: 4px;
+}
+.panel-province-grid::-webkit-scrollbar-thumb {
+    background: var(--color-gold);
+    border-radius: 4px;
+}
+.panel-province-grid::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gold-light);
+}
+
+/* Подсветка выбранной клавиатурой */
+.panel-province-item.selected {
+    background: rgba(201, 164, 91, 0.25);
+    border-color: var(--color-gold-light);
+    transform: translateX(6px);
+}

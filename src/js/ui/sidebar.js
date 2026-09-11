@@ -1,6 +1,7 @@
 import { mapObjects } from '../data/objects.js';
 import { showObjectInfo, translateType } from '../map/markers.js';
 import { getProvincesList, highlightProvinceById } from '../data/provinces.js';
+import { createMarker } from '../map/markerFactory.js';
 
 let markerGroups = {};
 
@@ -14,7 +15,7 @@ export function initMarkerGroups(map) {
     for (const [type, objects] of Object.entries(groups)) {
         const group = L.layerGroup();
         objects.forEach(obj => {
-            const icon = getIcon(obj.type);
+            const icon = createMarker(obj.type);
             if (!icon) {
                 console.warn(`Иконка для ${obj.type} не найдена`);
                 return;
@@ -44,12 +45,13 @@ export function initSidebar(map) {
         cb.checked = true;
         cb.addEventListener('change', (e) => {
             const isVisible = e.target.checked;
-            map.eachLayer(layer => {
-                if (layer instanceof L.Marker && layer.type === type) {
-                    if (isVisible) map.addLayer(layer);
-                    else map.removeLayer(layer);
-                }
-            });
+            if (markerGroups[type]) {
+        if (isVisible) {
+            markerGroups[type].addTo(map);
+        } else {
+            map.removeLayer(markerGroups[type]);
+        }
+    }
         });
         label.appendChild(cb);
         label.appendChild(document.createTextNode(translateType(type)));

@@ -7,9 +7,16 @@ function translateType(typeKey) {
         trade_1: 'Торговый центр (I уровень)',
         trade_2: 'Торговый центр (II уровень)',
         trade_3: 'Торговый центр (III уровень)',
-        castle: 'Замок',
-        city_no_wall: 'Город без стен',
-        city_with_wall: 'Город со стенами',
+        fortress_1: 'Крепость (I уровень)',
+        fortress_2: 'Крепость (II уровень)',
+        fortress_3: 'Крепость (III уровень)',
+        fortress_4: 'Крепость (IV уровень)',
+        fortress_5: 'Крепость (V уровень)',
+        town: 'Город',
+        walled_city: 'Город со стенами',
+        event: 'Событие',
+        anomaly: 'Аномалия',
+        rebellion: 'Восстание',
         capital: 'Столица',
         port: 'Порт'
     };
@@ -42,7 +49,7 @@ export function addMarkers(map) {
     const markerGroup = L.layerGroup();
 
     mapObjects.forEach(obj => {
-        const icon = createMarker(obj.type);   // ← ЗДЕСЬ БЫЛО getIcon, ИСПРАВИЛ!
+        const icon = createMarker(obj.type);
         if (!icon) {
             console.warn(`Маркер для типа ${obj.type} не создан`);
             return;
