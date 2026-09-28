@@ -19,11 +19,14 @@
 
     <!-- ===== ЛЕВАЯ ПАНЕЛЬ ИНСТРУМЕНТОВ (САМАЯ ПЕРВАЯ, ВНЕ ВСЕХ КОНТЕЙНЕРОВ) ===== -->
     <div class="left-tools">
-        <button id="sidebar-toggle" class="left-tool-btn" title="Меню">
+                <button
+        id="map-modes-toggle"
+        class="left-tool-btn map-modes-toggle"
+        title="Режимы карт"
+        ><span class="material-icons">map</span>
+    </button>
+    <button id="sidebar-toggle" class="left-tool-btn" title="Меню">
             <span class="material-icons">menu</span>
-        </button>
-        <button id="layers-toggle" class="left-tool-btn" title="Слои">
-            <span class="material-icons">layers</span>
         </button>
         <button id="markers-toggle" class="left-tool-btn" title="Маркеры">
             <span class="material-icons">place</span>
@@ -46,19 +49,27 @@
     <button id="open-province-panel" class="open-province-btn" title="Список провинций">
         <span class="material-icons">auto_stories</span>
     </button>
-    <!-- ===== ПАНЕЛИ ИНСТРУМЕНТОВ (ВЫЕЗЖАЮЩИЕ) ===== -->
-    <div id="layers-panel" class="tool-panel">
-        <div class="filter-section">
-            <h4>Слои карты</h4>
-            <div class="layer-controls">
-                <button class="layer-btn active" data-layer="political">Политическая</button>
-                <button class="layer-btn" data-layer="geographic">Географическая</button>
-                <button class="layer-btn" data-layer="trade">Торговая</button>
-                <button class="layer-btn" data-layer="resources">Ресурсы</button>
+
+    <!-- ===== ПАНЕЛЬ РЕЖИМОВ КАРТЫ ===== -->
+    <div id="map-modes-panel" class="tool-panel map-modes-panel">
+
+    <div class="map-modes-header">
+        <div>
+            <span class="material-icons">map</span>
+            <div>
+                <h3>Режимы карты</h3>
+                <p>Выберите представление мира</p>
             </div>
         </div>
     </div>
 
+    <div
+        id="map-mode-list"
+        class="map-mode-list"
+    ></div>
+    </div>
+
+<!-- ===== ПАНЕЛИ ИНСТРУМЕНТОВ (ВЫЕЗЖАЮЩИЕ) ===== -->
     <div id="markers-panel" class="tool-panel">
         <div class="filter-section">
             <h4>Маркеры</h4>
@@ -86,12 +97,6 @@
                 Сброс
             </button>
         </div>
-    </div>
-
-    <!-- ===== ПАНЕЛЬ ХОДА И СЕЗОНА ===== -->
-    <div class="turn-info">
-        <span>Ход: <span id="turn-number">1</span></span>
-        <span>Сезон: <span id="season-name">Весна</span></span>
     </div>
 
     <!-- ===== БОКОВАЯ ПАНЕЛЬ (ГАМБУРГЕР) ===== -->

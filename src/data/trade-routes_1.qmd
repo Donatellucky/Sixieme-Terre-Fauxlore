@@ -1,0 +1,27 @@
+<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
+<qgis version="3.44.8-Solothurn">
+  <identifier></identifier>
+  <parentidentifier></parentidentifier>
+  <language></language>
+  <type>dataset</type>
+  <title></title>
+  <abstract></abstract>
+  <links/>
+  <dates/>
+  <fees></fees>
+  <encoding></encoding>
+  <crs>
+    <spatialrefsys nativeFormat="Wkt">
+      <wkt>PROJCRS["Pixel_Map_2763x1779",BASEGEOGCRS["Custom",DATUM["Unknown",ELLIPSOID["Custom",2763,0,LENGTHUNIT["metre",1,ID["EPSG",9001]]]],PRIMEM["Greenwich",0,ANGLEUNIT["metre",1]]],CONVERSION["unnamed",METHOD["Equidistant Cylindrical (Spherical)",ID["EPSG",1029]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["metre",1],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["x",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["y",north,ORDER[2],LENGTHUNIT["metre",1]]]</wkt>
+      <proj4>+proj=eqc +lat_ts=0 +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +R=2763 +units=m +no_defs +type=crs</proj4>
+      <srsid>100000</srsid>
+      <srid>0</srid>
+      <authid>USER:100000</authid>
+      <description>Pixel CRS</description>
+      <projectionacronym></projectionacronym>
+      <ellipsoidacronym>PARAMETER:2763:2763</ellipsoidacronym>
+      <geographicflag>false</geographicflag>
+    </spatialrefsys>
+  </crs>
+  <extent/>
+</qgis>

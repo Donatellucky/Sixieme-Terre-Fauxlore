@@ -1,17 +1,17 @@
 import initFauxloreMap from "./map/init.js";
-import { initLayerControls } from "./ui/layer-control.js";
+import { initMapModeControls } from "./ui/map-mode-control.js";
 import { addMarkers } from "./map/markers.js";
 import { initMarkerGroups, initSidebar, initFilters } from "./ui/sidebar.js";
 import { loadProvinces, getProvincesList } from "./data/provinces.js";
-import { loadBaseLayer } from "./map/layers.js";
 import { openProvincePanel, closeProvincePanel } from "./map/panel.js";
 import { applyProvinceHash, initHashListener } from './ui/url-hash.js';
+import { initTradeSystem } from './map/map-mode/trade-system/trade-system.js';
 
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('Sixième Terre запущен');
     const map = initFauxloreMap();
-    initLayerControls(map);
-    loadBaseLayer(map, 'src/assets/maps/fauxmap.png');
+    const mapModeControls = initMapModeControls(map);
+    initTradeSystem(map);
     
     // ----- ИНИЦИАЛИЗАЦИЯ ГРУПП МАРКЕРОВ (ДЛЯ ЧЕКБОКСОВ) -----
     const markerGroups = initMarkerGroups(map);
@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Загружаем провинции
     await loadProvinces(map);
+    mapModeControls.syncModeFeatures();
     applyProvinceHash(map);
     initHashListener(map);
     const provinceFeatures = getProvincesList();
@@ -194,19 +195,20 @@ if (fullscreenBtn) {
 }
 
 // ===== ЛЕВАЯ ПАНЕЛЬ ИНСТРУМЕНТОВ: ОТКРЫТИЕ ПАНЕЛЕЙ =====
-const layersToggle = document.getElementById('layers-toggle');
 const markersToggle = document.getElementById('markers-toggle');
 const filtersToggle = document.getElementById('filters-toggle');
 const searchToggle = document.getElementById('search-toggle');
 
-const layersPanel = document.getElementById('layers-panel');
 const markersPanel = document.getElementById('markers-panel');
 const filtersPanel = document.getElementById('filters-panel');
 const searchPanel = document.getElementById('search-panel');
 
+const mapModesToggle = document.getElementById('map-modes-toggle');
+const mapModesPanel = document.getElementById('map-modes-panel');
+
 // Закрыть все панели (кроме той, которую открываем)
 function closeAllToolPanels(except) {
-    const panels = [layersPanel, markersPanel, filtersPanel, searchPanel];
+    const panels = [mapModesPanel, markersPanel, filtersPanel, searchPanel];
     panels.forEach(panel => {
         if (panel && panel !== except) {
             panel.classList.remove('open');
@@ -228,10 +230,13 @@ function toggleToolPanel(panel, toggleBtn) {
 }
 
 // Вешаем обработчики на кнопки
-if (layersToggle && layersPanel) {
-    layersToggle.addEventListener('click', (e) => {
-        e.stopPropagation(); // чтобы не закрылось при клике на кнопку
-        toggleToolPanel(layersPanel, layersToggle);
+if (mapModesToggle && mapModesPanel) {
+    mapModesToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleToolPanel(
+            mapModesPanel,
+            mapModesToggle
+        );
     });
 }
 if (markersToggle && markersPanel) {
@@ -255,8 +260,8 @@ if (searchToggle && searchPanel) {
 
 // Закрывать панели при клике вне их
 document.addEventListener('click', function(e) {
-    const toolPanels = [layersPanel, markersPanel, filtersPanel, searchPanel];
-    const toolButtons = [layersToggle, markersToggle, filtersToggle, searchToggle];
+    const toolPanels = [mapModesPanel, markersPanel, filtersPanel, searchPanel];
+    const toolButtons = [mapModesToggle, markersToggle, filtersToggle, searchToggle];
     
     // Проверяем, был ли клик внутри какой-либо панели или на кнопке
     const isInsidePanel = toolPanels.some(panel => panel && panel.contains(e.target));

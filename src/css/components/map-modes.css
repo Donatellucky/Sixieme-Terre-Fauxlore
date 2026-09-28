@@ -1,0 +1,238 @@
+.map-modes-toggle {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: linear-gradient(
+        135deg,
+        #c9a45b,
+        #8B7D3C
+    );
+    border: 2px solid #f1dcb7;
+    color: #0a0f1a;
+    box-shadow:
+        0 0 20px rgba(201, 164, 91, 0.4),
+        0 4px 15px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+    position: fixed;
+    top: 20px;
+    left: 15px;
+    z-index: 9999;
+}
+
+.map-modes-toggle:hover {
+    transform: scale(1.1);
+
+    background: linear-gradient(
+        135deg,
+        #f1dcb7,
+        #c9a45b
+    );
+
+    box-shadow:
+        0 0 35px rgba(201, 164, 91, 0.8),
+        0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* =========================
+   ЦЕНТРАЛЬНАЯ ПАНЕЛЬ
+   ========================= */
+
+.map-modes-panel {
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: min(1100px, 90vw);
+    max-height: 80vh;
+
+    padding: 24px;
+
+    background: rgba(10, 15, 26, 0.97);
+
+    border: 1px solid var(--color-gold);
+    border-radius: 16px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.6);
+
+    overflow-y: auto;
+}
+
+.map-modes-panel.open {
+    display: block;
+}
+
+/* =========================
+   HEADER
+   ========================= */
+
+.map-modes-header {
+    margin-bottom: 20px;
+
+    color: var(--color-gold);
+}
+
+.map-modes-header > div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.map-modes-header .material-icons {
+    font-size: 2rem;
+}
+
+.map-modes-header h3 {
+    margin: 0;
+
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+}
+
+.map-modes-header p {
+    margin: 3px 0 0;
+
+    color: var(--color-text);
+    opacity: 0.65;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+}
+
+/* =========================
+   КАРТОЧКИ
+   ========================= */
+
+.map-mode-list {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 16px;
+}
+
+.map-mode-card {
+    position: relative;
+
+    min-height: 260px;
+
+    padding: 0;
+
+    border: 1px solid
+        rgba(201, 164, 91, 0.35);
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    background-color: var(--color-surface);
+
+    background-image:
+        linear-gradient(
+            rgba(10, 15, 26, 0.72),
+            rgba(10, 15, 26, 0.92)
+        ),
+        var(--mode-background);
+
+    background-size: cover;
+    background-position: center;
+
+    color: var(--color-text);
+
+    cursor: pointer;
+
+    text-align: left;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        filter 0.25s ease;
+}
+
+.map-mode-card:hover {
+    transform: translateY(-6px);
+
+    border-color:
+        var(--color-gold);
+
+    box-shadow:
+        0 12px 35px
+        rgba(0, 0, 0, 0.45);
+
+    filter: brightness(1.12);
+}
+
+.map-mode-card.active {
+    border-color:
+        var(--color-gold-light);
+
+    box-shadow:
+        0 0 0 2px
+        rgba(201, 164, 91, 0.25),
+        0 12px 35px
+        rgba(0, 0, 0, 0.45);
+}
+
+.map-mode-card-content {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: flex-end;
+
+    height: 100%;
+
+    padding: 24px;
+}
+
+.map-mode-icon {
+    margin-bottom: auto;
+
+    font-size: 2.5rem;
+
+    color: var(--color-gold);
+}
+
+.map-mode-card h3 {
+    margin: 0 0 8px;
+
+    font-family: 'Cinzel', serif;
+
+    font-size: 1.35rem;
+
+    color: #f1dcb7;
+}
+
+.map-mode-card p {
+    margin: 0;
+
+    max-width: 90%;
+
+    font-family: 'Montserrat', sans-serif;
+
+    font-size: 0.9rem;
+
+    line-height: 1.5;
+
+    opacity: 0.8;
+}
+
+/* =========================
+   АДАПТАЦИЯ
+   ========================= */
+
+@media (max-width: 850px) {
+    .map-mode-list {
+        grid-template-columns: 1fr;
+    }
+
+    .map-mode-card {
+        min-height: 190px;
+    }
+}

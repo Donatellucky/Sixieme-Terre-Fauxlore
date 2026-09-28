@@ -1,78 +1,19 @@
+import { transformFeatureCollection } from './coords-transform.js';
+
 let provinceLayer = null;
 let currentHighlight = null;
 let provinceFeatures = [];
 
-// ===== НАСТРОЙКИ ПРЕОБРАЗОВАНИЯ КООРДИНАТ (меняйте эти числа) =====
-window.CONFIG = {
-    swapXY: true,
-    invertY: false,
-    scaleX: 1,
-    scaleY: 1,
-    offsetX: 2270,
-    offsetY: 0,
-    // Дополнительно: можно менять порядок возврата [y, x] или [x, y]
-    swapReturn: true, // если true, возвращает [y, x], иначе [x, y]
-};
-
-// Преобразование одной точки
-function convertPoint(x, y) {
-    let newX = x;
-    let newY = y;   // ← Убрал принудительный минус
-
-    if (window.CONFIG.swapXY) {
-        let tmp = newX;
-        newX = newY;
-        newY = tmp;
-    }
-
-    if (window.CONFIG.invertY) {
-        newY = -newY;
-    }
-
-    newX = newX * window.CONFIG.scaleX + window.CONFIG.offsetX;
-    newY = newY * window.CONFIG.scaleY + window.CONFIG.offsetY;
-
-    if (window.CONFIG.swapReturn) {
-        return [newY, newX];   // Leaflet [y, x]
-    } else {
-        return [newX, newY];
-    }
-}
-
-// Рекурсивное преобразование геометрии
-function recalcGeometry(geom) {
-    if (geom.type === 'Polygon') {
-        return {
-            type: 'Polygon',
-            coordinates: geom.coordinates.map(ring => ring.map(coord => convertPoint(coord[0], coord[1])))
-        };
-    } else if (geom.type === 'MultiPolygon') {
-        return {
-            type: 'MultiPolygon',
-            coordinates: geom.coordinates.map(poly => poly.map(ring => ring.map(coord => convertPoint(coord[0], coord[1]))))
-        };
-    }
-    return geom;
-}
-
 export async function loadProvinces(map) {
-    const response = await fetch('src/data/province1.geojson');
-    let data = await response.json();
+    const response = await fetch('/src/data/province1.geojson');
+    const data = await response.json();
 
-    // Удаляем объекты без координат
-    data.features = data.features.filter(f => 
+    data.features = data.features.filter(f =>
         f.geometry && f.geometry.coordinates && f.geometry.coordinates.length > 0
     );
 
-    // Применяем преобразование координат
-    const transformedData = {
-        type: 'FeatureCollection',
-        features: data.features.map(feature => ({
-            type: 'Feature',
-            properties: feature.properties,
-            geometry: recalcGeometry(feature.geometry)
-        }))
-    };
+      // Применяем преобразование координат
+      const transformedData = transformFeatureCollection(data);
 
     console.log('Оригинальные координаты (первые 3 точки):', data.features[0]?.geometry?.coordinates[0]?.slice(0,3));
     console.log('Преобразованные координаты:', transformedData.features[0]?.geometry?.coordinates[0]?.slice(0,3));
@@ -111,15 +52,7 @@ export async function loadProvinces(map) {
 
 // --- ОБРАБОТЧИК НАВЕДЕНИЯ ---
 layer.on('mouseover', () => {
-    // Если есть подсвеченный полигон, но он не текущий, сбросить его
-    if (currentHighlight && currentHighlight !== layer) {
-        currentHighlight.setStyle({
-            color: '#8b0000',
-            fillOpacity: 0.4
-        });
-        updateOutlineWidthForLayer(currentHighlight);
-        currentHighlight = null;
-    }
+    // Если провинция не выбрана кликом — временно подсвечиваем её
     if (layer !== currentHighlight) {
         layer.setStyle({
             weight: 2.5,
@@ -128,12 +61,15 @@ layer.on('mouseover', () => {
         });
     }
 });
+
 layer.on('mouseout', () => {
+    // Выбранную провинцию не трогаем
     if (layer !== currentHighlight) {
         layer.setStyle({
             color: '#8b0000',
             fillOpacity: 0.4
         });
+
         updateOutlineWidthForLayer(layer);
     }
 });
@@ -207,14 +143,17 @@ function showProvinceInfo(properties) {
         </div>
     `;
     panel.style.display = 'block';
-    panel.querySelector('.close-panel').addEventListener('click', () => {
-        panel.style.display = 'none';
-        if (currentHighlight) {
-            currentHighlight.setStyle({ weight: 1, fillOpacity: 0, color: '#ff0000' });
-            currentHighlight = null;
-        }
-        window.dispatchEvent(new CustomEvent('province:closed'));
-    });
+panel.querySelector('.close-panel').addEventListener('click', () => {
+    panel.style.display = 'none';
+    if (currentHighlight) {
+        currentHighlight.setStyle({
+            color: '#8b0000',
+            fillOpacity: 0.4
+        });
+        currentHighlight = null;
+    }
+    window.dispatchEvent(new CustomEvent('province:closed'));
+});
     const pid = properties.id ?? properties.fid;
     if (pid != null) {
         window.dispatchEvent(new CustomEvent('province:opened', { detail: { id: pid } }));
@@ -227,16 +166,49 @@ export function getProvincesList() {
 
 export function highlightProvinceById(id) {
     if (!provinceLayer) return;
+
     provinceLayer.eachLayer(layer => {
-        if (layer.feature.properties.id === id || layer.feature.properties.fid == id) {
-            if (currentHighlight) {
-                currentHighlight.setStyle({ weight: 1, fillOpacity: 0, color: '#ff0000' });
+        const properties = layer.feature?.properties || {};
+        const layerId = properties.id ?? properties.fid;
+        if (String(layerId) === String(id)) {
+            // Если ранее была выбрана другая провинция,
+            // возвращаем её к обычному стилю
+            if (currentHighlight && currentHighlight !== layer) {
+                currentHighlight.setStyle({
+                    color: '#8b0000',
+                    fillOpacity: 0.4
+                });
             }
-            layer.setStyle({ weight: 3, fillOpacity: 0.2, color: '#ffaa00' });
+            // Выделяем найденную провинцию
+            layer.setStyle({
+                weight: 3,
+                color: '#ffaa00',
+                fillOpacity: 0.7
+            });
             currentHighlight = layer;
-            showProvinceInfo(layer.feature.properties);
-        } else if (layer !== currentHighlight) {
-            layer.setStyle({ weight: 1, fillOpacity: 0, color: '#ff0000' });
+            showProvinceInfo(properties);
         }
     });
+}
+
+export function setProvinceLayerVisible(map, visible) {
+    if (!provinceLayer) return;
+
+    const isVisible = map.hasLayer(provinceLayer);
+
+    if (visible) {
+        if (!isVisible) {
+            provinceLayer.addTo(map);
+        }
+
+        provinceLayer.eachLayer(layer => {
+            if (layer.bringToFront) {
+                layer.bringToFront();
+            }
+        });
+    } else {
+        if (isVisible) {
+            map.removeLayer(provinceLayer);
+        }
+    }
 }

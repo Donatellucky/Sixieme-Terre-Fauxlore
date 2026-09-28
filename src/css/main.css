@@ -18,3 +18,6 @@
 @import 'pages/map.css';
 @import 'themes/gothic.css';
 @import 'layout/panel.css';
+@import 'components/map-modes.css';
+@import 'components/entity-panel.css';
+@import 'components/trade-routes.css';
