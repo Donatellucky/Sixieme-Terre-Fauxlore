@@ -1,4 +1,4 @@
-import { transformFeatureCollection, COORD_CONFIG_ZONES } from '/src/js/data/coords-transform.js';
+import { transformFeatureCollection, COORD_CONFIG_ZONES } from '../../../data/coords-transform.js';
 import { tradeZoneData } from './trade-zones-data.js';
 import { openEntityPanel, closeEntityPanel } from '../../../ui/entity-panel.js';
 
@@ -32,7 +32,7 @@ const SELECTED_STYLE = {
 
 
 export async function loadTradeZones(map) {
-    const response = await fetch('/src/data/trade-zones.geojson');
+    const response = await fetch('src/data/trade-zones.geojson');
 
     if (!response.ok) {
         throw new Error(
@@ -57,14 +57,14 @@ export async function loadTradeZones(map) {
         renderer: L.canvas(),
 
         style: feature => {
-            const zoneId = feature.properties?.routes.id;
+            const zoneId = feature.properties?.id;
             const zone = tradeZoneData[zoneId];
 
-            return {
-                ...DEFAULT_STYLE,
-                fillColor: zone?.color || feature.properties?.color || '#666'
-            };
-        },
+        return {
+            ...DEFAULT_STYLE,
+            fillColor: zone?.color || feature.properties?.color || '#666'
+        };
+    },
 
         onEachFeature: (feature, layer) => {
             setupZoneInteraction(feature, layer);
@@ -99,7 +99,7 @@ function setupZoneInteraction(feature, layer) {
         layer.setStyle(SELECTED_STYLE);
         currentHighlight = layer;
 
-        const zoneId = feature.properties?.route_id;
+        const zoneId = feature.properties?.id;
         const zone = tradeZoneData[zoneId];
 
         if (!zone) {

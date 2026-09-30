@@ -1,7 +1,7 @@
 import {
     transformFeatureCollection,
     COORD_CONFIG_ZONES
-} from '/src/js/data/coords-transform.js';
+} from '../../../data/coords-transform.js';
 
 import {
     tradeRouteData
@@ -28,10 +28,8 @@ let routeObjects = [];
  */
 export async function loadTradeRoutes(map) {
 
-    const response =
-        await fetch(
-            '/src/data/trade-routes.geojson'
-        );
+
+const response = await fetch('src/data/trade-routes.geojson');
 
     if (!response.ok) {
         throw new Error(
