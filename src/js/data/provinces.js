@@ -5,7 +5,16 @@ let currentHighlight = null;
 let provinceFeatures = [];
 
 export async function loadProvinces(map) {
-    const response = await fetch('/src/data/province1.geojson');
+    const response = await fetch(
+    new URL('../../data/province1.geojson', import.meta.url)
+);
+
+    if (!response.ok) {
+        throw new Error(
+            `Не удалось загрузить провинции: ${response.status} ${response.statusText}`
+        );
+    }
+
     const data = await response.json();
 
     data.features = data.features.filter(f =>
