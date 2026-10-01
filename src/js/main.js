@@ -6,10 +6,12 @@ import { loadProvinces, getProvincesList } from "./data/provinces.js";
 import { openProvincePanel, closeProvincePanel } from "./map/panel.js";
 import { applyProvinceHash, initHashListener } from './ui/url-hash.js';
 import { initTradeSystem } from './map/map-mode/trade-system/trade-system.js';
+import { initMeasurementTool } from "./map/measurement-tool.js";
 
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('Sixième Terre запущен');
     const map = initFauxloreMap();
+    initMeasurementTool(map);
     const mapModeControls = initMapModeControls(map);
     initTradeSystem(map);
     
