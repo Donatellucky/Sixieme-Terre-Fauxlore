@@ -99,6 +99,7 @@
     margin: 8px 0;
     line-height: 1.5;
     overflow-wrap: anywhere;
+    white-space: pre-line;
 }
 
 #coords-panel .wiki-link,
@@ -141,4 +142,18 @@
 #measurement-panel .wiki-link {
     white-space: normal;
     overflow-wrap: anywhere;
+}
+
+.measurement-point-wrapper {
+    background: transparent;
+    border: none;
+}
+
+.measurement-point {
+    width: 10px;
+    height: 10px;
+    background: #c9a45b;
+    border: 2px solid #f1dcb7;
+    border-radius: 50%;
+    box-sizing: border-box;
 }
