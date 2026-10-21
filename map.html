@@ -18,59 +18,69 @@
 <body class="page-map">
 
     <!-- ===== ЛЕВАЯ ПАНЕЛЬ ИНСТРУМЕНТОВ (САМАЯ ПЕРВАЯ, ВНЕ ВСЕХ КОНТЕЙНЕРОВ) ===== -->
-    <div class="left-tools">
-                <button
+    
+<div class="left-tools">
+    <button
         id="map-modes-toggle"
         class="left-tool-btn map-modes-toggle"
         title="Режимы карт"
-        ><span class="material-icons">map</span>
+        aria-controls="map-modes-panel"
+        aria-expanded="false"
+        type="button"
+    >
+        <span class="material-icons" aria-hidden="true">map</span>
     </button>
+
     <button id="sidebar-toggle" class="left-tool-btn" title="Меню">
-            <span class="material-icons">menu</span>
-        </button>
-        <button id="markers-toggle" class="left-tool-btn" title="Маркеры">
-            <span class="material-icons">place</span>
-        </button>
-        <button id="filters-toggle" class="left-tool-btn" title="Фильтры">
-            <span class="material-icons">filter_list</span>
-        </button>
-        <button id="fullscreen-btn" class="left-tool-btn" title="Полноэкранный режим">
-            <span class="material-icons">fullscreen</span>
-        </button>
-        <button id="coords-toggle" class="left-tool-btn" title="Координаты">
-            <span class="material-icons">gps_fixed</span>
-        </button>
-        <button id="info-toggle" class="left-tool-btn" title="Условные обозначения">
-            <span class="material-icons">info</span>
-        </button>
-        <button id="measurement-toggle" class="left-tool-btn" title="Измерение расстояний">
-            <span class="material-icons">straighten</span>
-        </button>
-    </div>
+        <span class="material-icons">menu</span>
+    </button>
+
+    <button id="markers-toggle" class="left-tool-btn" title="Маркеры">
+        <span class="material-icons">place</span>
+    </button>
+
+    <button id="filters-toggle" class="left-tool-btn" title="Фильтры">
+        <span class="material-icons">filter_list</span>
+    </button>
+
+    <button id="fullscreen-btn" class="left-tool-btn" title="Полноэкранный режим">
+        <span class="material-icons">fullscreen</span>
+    </button>
+
+    <button id="coords-toggle" class="left-tool-btn" title="Координаты">
+        <span class="material-icons">gps_fixed</span>
+    </button>
+
+    <button id="info-toggle" class="left-tool-btn" title="Условные обозначения">
+        <span class="material-icons">info</span>
+    </button>
+
+    <button id="measurement-toggle" class="left-tool-btn" title="Измерение расстояний">
+        <span class="material-icons">straighten</span>
+    </button>
+</div>
+
 
     <!-- Список провинций -->
     <button id="open-province-panel" class="open-province-btn" title="Список провинций">
         <span class="material-icons">auto_stories</span>
     </button>
-
-    <!-- ===== ПАНЕЛЬ РЕЖИМОВ КАРТЫ ===== -->
-    <div id="map-modes-panel" class="tool-panel map-modes-panel">
-
-    <div class="map-modes-header">
-        <div>
-            <span class="material-icons">map</span>
-            <div>
-                <h3>Режимы карты</h3>
-                <p>Выберите представление мира</p>
-            </div>
-        </div>
-    </div>
+    
+<!-- ===== ПАНЕЛЬ РЕЖИМОВ КАРТЫ ===== -->
+<div
+    id="map-modes-panel"
+    class="tool-panel map-modes-panel"
+    aria-labelledby="map-modes-heading"
+    aria-hidden="true"
+>
+    <h3 id="map-modes-heading">Режимы карты</h3>
 
     <div
         id="map-mode-list"
         class="map-mode-list"
     ></div>
-    </div>
+</div>
+
 
 <!-- ===== ПАНЕЛИ ИНСТРУМЕНТОВ (ВЫЕЗЖАЮЩИЕ) ===== -->
     <div id="markers-panel" class="tool-panel">

@@ -154,13 +154,15 @@ function showProvinceInfo(properties) {
     panel.style.display = 'block';
 panel.querySelector('.close-panel').addEventListener('click', () => {
     panel.style.display = 'none';
-    if (currentHighlight) {
-        currentHighlight.setStyle({
-            color: '#8b0000',
-            fillOpacity: 0.4
-        });
-        currentHighlight = null;
-    }
+if (currentHighlight) {
+    currentHighlight.setStyle({
+        color: '#8b0000',
+        weight: 1.5,
+        fillOpacity: 0.4
+    });
+
+    currentHighlight = null;
+}
     window.dispatchEvent(new CustomEvent('province:closed'));
 });
     const pid = properties.id ?? properties.fid;

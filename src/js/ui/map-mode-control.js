@@ -1,61 +1,104 @@
+
 import { switchLayer } from "../map/layers.js";
+
 import {
     mapModes,
     DEFAULT_MAP_MODE
 } from "../data/map-modes.js";
-import { setProvinceLayerVisible } from "../data/provinces.js";
+
+import {
+    setProvinceLayerVisible
+} from "../data/provinces.js";
 
 let activeModeId = DEFAULT_MAP_MODE;
 let currentBaseLayer = null;
 
+
+/**
+ * Инициализирует панель режимов карты.
+ */
 export function initMapModeControls(map) {
-    const toggleButton = document.getElementById('map-modes-toggle');
-    const panel = document.getElementById('map-modes-panel');
-    const list = document.getElementById('map-mode-list');
+    const toggleButton =
+        document.getElementById('map-modes-toggle');
+
+    const panel =
+        document.getElementById('map-modes-panel');
+
+    const list =
+        document.getElementById('map-mode-list');
 
     if (!toggleButton || !panel || !list) {
-        console.warn('Не найдены элементы панели режимов карты.');
+        console.warn(
+            'Не найдены элементы панели режимов карты.'
+        );
+
         return {
             syncModeFeatures,
             getActiveMode
         };
     }
 
+    // Создаём карточки на основе конфигурации режимов.
     renderModeCards(list);
 
-    // Фоновые изображения карточек загружаем
-    // только при первом открытии панели.
+    // Фоновые изображения загружаем только при открытии панели.
     toggleButton.addEventListener('click', () => {
         loadCardBackgrounds(list);
     });
 
-    // Делегирование кликов:
-    // один обработчик вместо отдельного на каждую карточку.
-    list.addEventListener('click', (event) => {
+    // Выбор режима через единый обработчик карточек.
+    list.addEventListener('click', event => {
         const card = event.target.closest('.map-mode-card');
 
-        if (!card) return;
+        if (!card || !list.contains(card)) {
+            return;
+        }
 
         const modeId = card.dataset.mode;
 
         if (!mapModes[modeId]) {
-            console.warn(`Неизвестный режим карты: ${modeId}`);
+            console.warn(
+                `Неизвестный режим карты: ${modeId}`
+            );
+
             return;
         }
 
         switchMapMode(map, modeId);
 
-        // После выбора возвращаем пользователя на карту.
+        // После выбора возвращаем пользователя к карте.
         panel.classList.remove('open');
+        toggleButton.focus();
     });
 
-    // Загружаем режим по умолчанию.
+    // Escape закрывает панель без изменения режима.
+    document.addEventListener('keydown', event => {
+        if (
+            event.key !== 'Escape' ||
+            !panel.classList.contains('open')
+        ) {
+            return;
+        }
+
+        panel.classList.remove('open');
+        toggleButton.focus();
+    });
+
+    // Инициализируем карту режимом по умолчанию.
     switchMapMode(map, DEFAULT_MAP_MODE, false);
 
+    /**
+     * Повторно синхронизирует элементы интерфейса
+     * с текущим режимом.
+     *
+     * Вызывается после загрузки провинций.
+     */
     function syncModeFeatures() {
         const mode = mapModes[activeModeId];
 
-        if (!mode) return;
+        if (!mode) {
+            return;
+        }
 
         setProvinceLayerVisible(
             map,
@@ -71,52 +114,63 @@ export function initMapModeControls(map) {
         );
     }
 
+    /**
+     * Возвращает конфигурацию активного режима.
+     */
     function getActiveMode() {
         return mapModes[activeModeId];
     }
-    
+
     return {
         syncModeFeatures,
         getActiveMode
     };
 }
 
+
 /**
- * Переключает текущий режим карты.
+ * Переключает базовую карту и синхронизирует интерфейс.
  */
 function switchMapMode(map, modeId, announce = true) {
     const mode = mapModes[modeId];
 
     if (!mode) {
-        console.warn(`Режим "${modeId}" не найден.`);
-        return;
+        console.warn(
+            `Режим "${modeId}" не найден.`
+        );
+
+        return false;
     }
 
     activeModeId = modeId;
 
-    // Меняем базовую PNG-карту.
+    // Меняем фоновое изображение карты.
     currentBaseLayer = switchLayer(
         map,
         mode.imagePath,
         currentBaseLayer
     );
 
-    // Обновляем элементы интерфейса.
+    // Синхронизируем карточки и связанные инструменты.
     setActiveCard(modeId);
-    updateProvinceTools(mode.features.provinceTools);
-    updateChronology(mode.features.chronology);
 
-    // Показываем / скрываем слой провинций.
+    updateProvinceTools(
+        mode.features.provinceTools
+    );
+
+    updateChronology(
+        mode.features.chronology
+    );
+
     setProvinceLayerVisible(
         map,
         mode.features.provinces
     );
 
-    // Сохраняем состояние режима в DOM.
+    // Текущий режим доступен другим модулям через DOM.
     document.body.dataset.mapMode = modeId;
 
-    // Сообщаем другим системам:
-    // "режим карты изменился".
+    // Уведомляем системы, зависящие от выбранного режима.
     if (announce) {
         window.dispatchEvent(
             new CustomEvent('map:modechange', {
@@ -127,10 +181,13 @@ function switchMapMode(map, modeId, announce = true) {
             })
         );
     }
+
+    return true;
 }
 
+
 /**
- * Создаёт три карточки режимов.
+ * Создаёт карточки из конфигурации mapModes.
  */
 function renderModeCards(container) {
     container.innerHTML = Object.values(mapModes)
@@ -141,12 +198,11 @@ function renderModeCards(container) {
                 data-mode="${mode.id}"
                 aria-pressed="false"
             >
-                <div class="map-mode-card-overlay"></div>
-
                 <div class="map-mode-card-content">
-                    <span class="material-icons map-mode-icon">
-                        ${mode.icon}
-                    </span>
+                    <span
+                        class="material-icons map-mode-icon"
+                        aria-hidden="true"
+                    >${mode.icon}</span>
 
                     <h3>${mode.title}</h3>
 
@@ -159,41 +215,54 @@ function renderModeCards(container) {
     setActiveCard(activeModeId);
 }
 
+
 /**
- * Активная карточка получает визуальное выделение.
+ * Обновляет активное состояние карточек.
  */
 function setActiveCard(modeId) {
     document
         .querySelectorAll('.map-mode-card')
         .forEach(card => {
-            const isActive = card.dataset.mode === modeId;
+            const isActive =
+                card.dataset.mode === modeId;
 
-            card.classList.toggle('active', isActive);
-            card.setAttribute('aria-pressed', String(isActive));
+            card.classList.toggle(
+                'active',
+                isActive
+            );
+
+            card.setAttribute(
+                'aria-pressed',
+                String(isActive)
+            );
         });
 }
 
+
 /**
- * Добавляет фоновые PNG только при необходимости.
+ * Подключает фоновые изображения к карточкам.
+ * Повторно уже загруженные изображения не обрабатываем.
  */
 function loadCardBackgrounds(container) {
     container
         .querySelectorAll('.map-mode-card')
         .forEach(card => {
-            if (card.dataset.backgroundLoaded === 'true') {
+            if (
+                card.dataset.backgroundLoaded === 'true'
+            ) {
                 return;
             }
 
-            const modeId = card.dataset.mode;
-            const mode = mapModes[modeId];
+            const mode = mapModes[card.dataset.mode];
 
-            if (!mode) return;
+            if (!mode) {
+                return;
+            }
 
-            const imageUrl =
-                new URL(
-                    mode.imagePath,
-                    document.baseURI
-                ).href;
+            const imageUrl = new URL(
+                mode.imagePath,
+                document.baseURI
+            ).href;
 
             card.style.setProperty(
                 '--mode-background',
@@ -204,8 +273,9 @@ function loadCardBackgrounds(container) {
         });
 }
 
+
 /**
- * Управление инструментами, связанными с провинциями.
+ * Показывает или скрывает инструменты провинций.
  */
 function updateProvinceTools(visible) {
     const provinceButton =
@@ -225,14 +295,17 @@ function updateProvinceTools(visible) {
     }
 }
 
+
 /**
- * Показывает / скрывает блок хода и сезона.
+ * Показывает или скрывает информацию о ходе и сезоне.
  */
 function updateChronology(visible) {
     const turnInfo =
         document.querySelector('.turn-info');
 
-    if (!turnInfo) return;
+    if (!turnInfo) {
+        return;
+    }
 
     turnInfo.style.display =
         visible ? 'flex' : 'none';

@@ -53,8 +53,18 @@ export async function loadTradeZones(map) {
         COORD_CONFIG_ZONES
     );
 
-    tradeZoneLayer = L.geoJSON(transformedData, {
-        renderer: L.canvas(),
+    // Торговые зоны располагаются ниже стандартного overlayPane,
+// в котором находятся полигоны провинций.
+if (!map.getPane('tradeZonesPane')) {
+    map.createPane('tradeZonesPane');
+    map.getPane('tradeZonesPane').style.zIndex = 390;
+}
+
+tradeZoneLayer = L.geoJSON(transformedData, {
+    pane: 'tradeZonesPane',
+    renderer: L.canvas({
+        pane: 'tradeZonesPane'
+    }),
 
         style: feature => {
             const zoneId = feature.properties?.id;
