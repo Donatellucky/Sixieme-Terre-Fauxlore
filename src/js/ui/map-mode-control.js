@@ -10,7 +10,7 @@ import {
     setProvinceLayerVisible
 } from "../data/provinces.js";
 
-let activeModeId = DEFAULT_MAP_MODE;
+import { getMapModeId, getMapMode, setMapMode, syncMapModeToDOM } from "../data/map-mode-state.js";
 let currentBaseLayer = null;
 
 
@@ -94,7 +94,7 @@ export function initMapModeControls(map) {
      * Вызывается после загрузки провинций.
      */
     function syncModeFeatures() {
-        const mode = mapModes[activeModeId];
+        const mode = getMapMode();
 
         if (!mode) {
             return;
@@ -118,7 +118,7 @@ export function initMapModeControls(map) {
      * Возвращает конфигурацию активного режима.
      */
     function getActiveMode() {
-        return mapModes[activeModeId];
+        return getMapMode();
     }
 
     return {
@@ -142,7 +142,7 @@ function switchMapMode(map, modeId, announce = true) {
         return false;
     }
 
-    activeModeId = modeId;
+    // Состояние обновляется после успешной смены фона.
 
     // Меняем фоновое изображение карты.
     currentBaseLayer = switchLayer(
@@ -167,19 +167,11 @@ function switchMapMode(map, modeId, announce = true) {
         mode.features.provinces
     );
 
-    // Текущий режим доступен другим модулям через DOM.
-    document.body.dataset.mapMode = modeId;
-
-    // Уведомляем системы, зависящие от выбранного режима.
+    // Единый источник состояния рассылает событие только при реальном изменении.
     if (announce) {
-        window.dispatchEvent(
-            new CustomEvent('map:modechange', {
-                detail: {
-                    id: mode.id,
-                    mode
-                }
-            })
-        );
+        setMapMode(modeId);
+    } else {
+        syncMapModeToDOM();
     }
 
     return true;
@@ -212,7 +204,7 @@ function renderModeCards(container) {
         `)
         .join('');
 
-    setActiveCard(activeModeId);
+    setActiveCard(getMapModeId());
 }
 
 
