@@ -1,0 +1,16 @@
+
+# Node.js dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+*.log
+
+# Generated files
+dist/
+coverage/
+
+# Local environment
+.env
+.env.*
+!.env.example
