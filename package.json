@@ -1,0 +1,27 @@
+{
+  "name": "sixieme-terre-fauxlore",
+  "version": "1.0.0",
+  "description": "https://donatellucky.github.io/Sixieme-Terre-Fauxlore/map.html",
+  "main": "index.js",
+  "scripts": {
+  "lint": "eslint \"src/js/**/*.js\"",
+  "format:check": "prettier \"src/js/**/*.js\" --check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Donatellucky/Sixieme-Terre-Fauxlore.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Donatellucky/Sixieme-Terre-Fauxlore/issues"
+  },
+  "homepage": "https://github.com/Donatellucky/Sixieme-Terre-Fauxlore#readme",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0"
+  }
+}
