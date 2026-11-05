@@ -1,0 +1,20 @@
+.trade-node-icon-wrapper { background: transparent; border: 0; }
+.trade-node-icon {
+    display: flex; width: 28px; height: 28px; align-items: center; justify-content: center;
+    border: 1px solid var(--trade-node-color, #d8b56a); border-radius: 50%;
+    background: rgba(16, 19, 27, 0.94); color: var(--trade-node-color, #d8b56a);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65); font-size: 17px; line-height: 1;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+}
+.trade-node-icon-wrapper:hover .trade-node-icon,
+.trade-node-icon-wrapper:focus .trade-node-icon {
+    transform: scale(1.14);
+    box-shadow: 0 0 0 3px rgba(216, 181, 106, 0.2), 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+.trade-node-tooltip {
+    border: 1px solid rgba(216, 181, 106, 0.55); border-radius: 4px;
+    background: rgba(16, 19, 27, 0.96); color: #f0e7d6;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+    font-family: 'Montserrat', sans-serif; font-size: 11px;
+}
+.trade-node-placeholder { margin-top: 12px; color: #9ca3af; font-size: 0.82rem; line-height: 1.45; }

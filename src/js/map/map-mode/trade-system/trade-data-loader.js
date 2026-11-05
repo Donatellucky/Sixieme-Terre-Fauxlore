@@ -1,14 +1,10 @@
-/**
- * Подготовка торговых GeoJSON без Leaflet, Canvas и DOM.
- * Экономические справочники остаются независимыми от визуализации.
- */
 import { transformFeatureCollection, COORD_CONFIG_ZONES } from '../../../data/coords-transform.js';
 import { tradeZoneData } from './trade-zones-data.js';
 import { tradeRouteData } from './trade-routes-data.js';
 
 async function fetchCollection(url) {
     const response = await fetch(url);
-    if (!response.ok) throw new Error(`Не удалось загрузить ${url}: ${response.status}`);
+    if (!response.ok) throw new Error(`Не удалось загрузить ${url}: ${response.status} ${response.statusText}`);
     const collection = await response.json();
     if (collection?.type !== 'FeatureCollection' || !Array.isArray(collection.features)) {
         throw new Error(`Некорректный FeatureCollection: ${url}`);
@@ -16,21 +12,37 @@ async function fetchCollection(url) {
     return collection;
 }
 
+function validZoneFeature(feature) {
+    const geometry = feature?.geometry;
+    const validType = geometry?.type === 'Polygon' || geometry?.type === 'MultiPolygon';
+    const validCoordinates = Array.isArray(geometry?.coordinates) && geometry.coordinates.length > 0;
+    if (!validType || !validCoordinates) {
+        console.warn('[Trade Zones] Пропущена некорректная геометрия:', {
+            id: feature?.properties?.id, type: geometry?.type
+        });
+        return false;
+    }
+    return true;
+}
+
 export async function prepareTradeZones() {
     const collection = await fetchCollection('src/data/trade-zones.geojson');
-    const features = collection.features.filter(feature =>
-        feature?.geometry?.coordinates && feature.geometry.coordinates.length > 0
-    );
+    const features = collection.features.filter(validZoneFeature);
     const geojson = transformFeatureCollection({ ...collection, features }, COORD_CONFIG_ZONES);
-    return { geojson, zones: geojson.features.map(feature => ({
+    const zones = geojson.features.map(feature => ({
         id: feature.properties?.id ?? null,
         properties: feature.properties ?? {},
         geometry: feature.geometry,
         economicData: tradeZoneData[feature.properties?.id] ?? null
-    })) };
+    }));
+    for (const zone of zones) {
+        if (!zone.geometry?.coordinates?.length) {
+            throw new Error(`[Trade Zones] Пустая геометрия после преобразования: ${zone.id}`);
+        }
+    }
+    return { geojson, zones };
 }
 
-/** Paths here are plain GeoJSON [longitude, latitude] coordinate pairs. */
 function geometryToCoordinatePaths(geometry) {
     if (!geometry?.coordinates) return [];
     if (geometry.type === 'LineString') return [geometry.coordinates];
@@ -53,9 +65,9 @@ export async function prepareTradeRoutes() {
         return {
             id: routeId,
             name: economicData.name || routeId,
-            fromZone: properties.from_zone || null,
-            toZone: properties.to_zone || null,
-            routeType: properties.route_type || null,
+            fromZone: properties.from_zone || economicData.fromZone || null,
+            toZone: properties.to_zone || economicData.toZone || null,
+            routeType: properties.route_type || economicData.routeType || null,
             turnover: economicData.turnover || 0,
             countries: economicData.countries || [],
             geometry: feature.geometry,

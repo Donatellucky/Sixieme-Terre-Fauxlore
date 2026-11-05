@@ -5,7 +5,7 @@ import { loadTradeRoutes, setTradeRoutesVisible, getTradeRouteLayer } from './tr
 let initializedMap = null;
 let initializationPromise = null;
 
-/** Инициализирует торговые подсистемы один раз для одной карты. */
+/** Initializes trade subsystems once for one map instance. */
 export function initTradeSystem(map) {
     if (initializedMap === map && initializationPromise) return initializationPromise;
     if (initializedMap && initializedMap !== map) {
@@ -20,7 +20,6 @@ export function initTradeSystem(map) {
         if (ready.routes) setTradeRoutesVisible(map, Boolean(features.tradeRoutes));
     };
 
-    // Слушатель создаётся до асинхронных запросов.
     subscribeMapMode(sync);
 
     async function initializePart(name, load, isReady) {
@@ -33,12 +32,10 @@ export function initTradeSystem(map) {
             ready[name] = false;
             console.error(`[Trade] ${name}: ошибка инициализации`, error);
         } finally {
-            // Берём АКТУАЛЬНЫЙ режим, а не режим на момент начала fetch.
             sync();
         }
     }
 
-    // Независимая загрузка: сбой маршрутов не блокирует зоны и наоборот.
     initializationPromise = Promise.all([
         initializePart('zones', loadTradeZones, () => Boolean(getTradeZoneLayer())),
         initializePart('routes', loadTradeRoutes, () => Boolean(getTradeRouteLayer()))
@@ -47,8 +44,8 @@ export function initTradeSystem(map) {
             mode: getMapMode()?.id,
             zonesReady: ready.zones,
             routesReady: ready.routes,
-            zonesOnMap: ready.zones && map.hasLayer(getTradeZoneLayer()),
-            routesOnMap: ready.routes && map.hasLayer(getTradeRouteLayer())
+            zonesVisible: Boolean(getTradeZoneLayer()?.visible),
+            routesVisible: Boolean(getTradeRouteLayer()?.visible)
         });
     });
 

@@ -1,15 +1,25 @@
-.trade-routes-canvas {
+/* Shared D3 SVG overlay. Keep it above Leaflet province paths while preserving
+   pointer interaction only on painted trade geometries. */
+.trade-d3-overlay {
     position: absolute;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    z-index: 450;
-
+    inset: 0;
+    z-index: 435;
+    overflow: visible;
     pointer-events: none;
-
     display: none;
+}
+
+.trade-d3-overlay .trade-d3-zones,
+.trade-d3-overlay .trade-d3-routes {
+    pointer-events: all;
+}
+
+.trade-d3-overlay .trade-zone {
+    pointer-events: visiblePainted;
+    transition: fill-opacity 120ms ease, stroke 120ms ease;
+}
+
+.trade-d3-overlay .trade-route {
+    pointer-events: stroke;
+    transition: stroke 120ms ease, stroke-width 120ms ease, opacity 120ms ease;
 }

@@ -2,163 +2,81 @@ import { prepareTradeZones } from './trade-data-loader.js';
 import { tradeZoneData } from './trade-zones-data.js';
 import { closeEntityPanel } from '../../../ui/entity-panel.js';
 import { showTradeZoneInfo } from './trade-zone-panel.js';
+import { getTradeSvgRenderer } from './trade-svg-renderer-instance.js';
 
 let tradeZoneLayer = null;
 let loadingPromise = null;
-let currentHighlight = null;
+let currentHighlightId = null;
 
-window.addEventListener(
-    'entity-panel:closed',
-    () => {
-        clearTradeZoneHighlight();
-    }
-);
-
-const DEFAULT_STYLE = {
-    color: '#d8b56a',
-    weight: 1.5,
-    fillOpacity: 0.12
-};
-
-const HOVER_STYLE = {
-    color: '#f1dcb7',
-    weight: 3,
-    fillOpacity: 0.28
-};
-
-const SELECTED_STYLE = {
-    color: '#ffaa00',
-    weight: 4,
-    fillOpacity: 0.35
-};
-
+window.addEventListener('entity-panel:closed', clearTradeZoneHighlight);
 
 export function loadTradeZones(map) {
     if (tradeZoneLayer) return Promise.resolve(tradeZoneLayer);
     if (loadingPromise) return loadingPromise;
     loadingPromise = fetchAndBuildZones(map).catch(error => {
-        loadingPromise = null; // разрешаем повторную попытку после ошибки
+        loadingPromise = null;
         throw error;
     });
     return loadingPromise;
 }
 
 async function fetchAndBuildZones(map) {
-    const { geojson: transformedData } = await prepareTradeZones();
-
-    // Торговые зоны располагаются ниже стандартного overlayPane,
-// в котором находятся полигоны провинций.
-if (!map.getPane('tradeZonesPane')) {
-    map.createPane('tradeZonesPane');
-    map.getPane('tradeZonesPane').style.zIndex = 390;
-}
-
-tradeZoneLayer = L.geoJSON(transformedData, {
-    pane: 'tradeZonesPane',
-    renderer: L.canvas({
-        pane: 'tradeZonesPane'
-    }),
-
-        style: feature => {
-            const zoneId = feature.properties?.id;
-            const zone = tradeZoneData[zoneId];
-
-        return {
-            ...DEFAULT_STYLE,
-            fillColor: zone?.color || feature.properties?.color || '#666'
-        };
-    },
-
-        onEachFeature: (feature, layer) => {
-            setupZoneInteraction(feature, layer);
-        }
+    const { geojson } = await prepareTradeZones();
+    const renderer = getTradeSvgRenderer(map);
+    renderer.onZoneHover = (_feature, _hovered) => {};
+    renderer.onZoneClick = feature => {
+        const id = feature.properties?.id;
+        if (!id) return;
+        currentHighlightId = id;
+        const zone = tradeZoneData[id] || fallbackZone(feature);
+        showTradeZoneInfo(zone, id);
+    };
+    renderer.setZones(geojson.features);
+    tradeZoneLayer = {
+        visible: false,
+        addTo() { this.visible = true; renderer.setVisible(true); return this; },
+        remove() { this.visible = false; renderer.setVisible(false); },
+        _d3TradeLayer: true
+    };
+    console.info('[Trade Zones] Загружено:', {
+        features: geojson.features.length,
+        renderer: 'D3/SVG',
+        ids: geojson.features.map(feature => feature.properties?.id)
     });
-
     return tradeZoneLayer;
 }
 
-
-function setupZoneInteraction(feature, layer) {
-    layer.on('mouseover', () => {
-        if (currentHighlight && currentHighlight !== layer) {
-            resetZoneStyle(currentHighlight);
-            currentHighlight = null;
-        }
-
-        layer.setStyle(HOVER_STYLE);
-    });
-
-    layer.on('mouseout', () => {
-        if (layer !== currentHighlight) {
-            resetZoneStyle(layer);
-        }
-    });
-
-    layer.on('click', () => {
-        if (currentHighlight && currentHighlight !== layer) {
-            resetZoneStyle(currentHighlight);
-        }
-
-        layer.setStyle(SELECTED_STYLE);
-        currentHighlight = layer;
-
-        const zoneId = feature.properties?.id;
-        const zone = tradeZoneData[zoneId];
-
-        if (!zone) {
-            console.warn(
-                `Для торговой зоны "${zoneId}" нет экономических данных.`
-            );
-            return;
-        }
-
-        showTradeZoneInfo(zone, zoneId);
-    });
+function fallbackZone(feature) {
+    return {
+        name: feature.properties?.name || feature.properties?.id || 'Торговая зона',
+        participants: 0,
+        totalTradeInfluence: 0,
+        totalValue: 0,
+        activeFlows: 0,
+        connectedMarkets: 0,
+        monopolist: null,
+        totalProduction: 0,
+        totalImport: 0,
+        totalExport: 0
+    };
 }
-
-
-function resetZoneStyle(layer) {
-    const zoneId = layer.feature?.properties?.id;
-    const zone = tradeZoneData[zoneId];
-
-    layer.setStyle({
-        ...DEFAULT_STYLE,
-        fillColor: zone?.color ||
-            layer.feature?.properties?.color ||
-            '#666'
-    });
-}
-
 
 export function clearTradeZoneHighlight() {
-    if (!currentHighlight) return;
-
-    resetZoneStyle(currentHighlight);
-    currentHighlight = null;
+    currentHighlightId = null;
+    const renderer = window.tradeSvgRenderer;
+    renderer?.setZoneState({ hoveredId: null, selectedId: null });
 }
-
 
 export function setTradeZonesVisible(map, visible) {
     if (!tradeZoneLayer) return;
-
-    const isVisible = map.hasLayer(tradeZoneLayer);
-    const pane = map.getPane('tradeZonesPane');
-    if (pane) pane.style.pointerEvents = visible ? 'auto' : 'none';
-
-    if (visible && !isVisible) {
-        tradeZoneLayer.addTo(map);
-    }
-
-    if (!visible && isVisible) {
+    const renderer = window.tradeSvgRenderer;
+    tradeZoneLayer.visible = Boolean(visible);
+    renderer?.setVisible(Boolean(visible));
+    if (!visible) {
         clearTradeZoneHighlight();
-        map.removeLayer(tradeZoneLayer);
+        closeEntityPanel();
     }
-
-if (!visible) {
-    closeEntityPanel();
 }
-}
-
 
 export function getTradeZoneLayer() {
     return tradeZoneLayer;
