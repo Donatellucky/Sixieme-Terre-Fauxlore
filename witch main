@@ -1,0 +1,22 @@
+ .github/workflows/code-quality.yml                 |   35 [32m+[m
+ .gitignore                                         |   16 [32m+[m
+ .prettierrc.json                                   |   10 [32m+[m
+ eslint.config.mjs                                  |   40 [32m+[m
+ map.html                                           |    1 [32m+[m
+ package-lock.json                                  | 1025 [32m++++++++++++++++++++[m
+ package.json                                       |   27 [32m+[m
+ src/css/components/trade-nodes.css                 |   20 [32m+[m
+ src/css/components/trade-routes.css                |   32 [32m+[m[31m-[m
+ src/css/main.css                                   |    3 [32m+[m[31m-[m
+ .../map/map-mode/trade-system/trade-data-loader.js |   40 [32m+[m[31m-[m
+ .../map/map-mode/trade-system/trade-node-panel.js  |   52 [32m+[m
+ .../map/map-mode/trade-system/trade-nodes-data.js  |   20 [32m+[m
+ src/js/map/map-mode/trade-system/trade-nodes.js    |   86 [32m++[m
+ .../map-mode/trade-system/trade-route-renderer.js  |  450 [32m+[m[31m--------[m
+ src/js/map/map-mode/trade-system/trade-routes.js   |  224 [32m+[m[31m----[m
+ .../trade-system/trade-svg-renderer-instance.js    |   14 [32m+[m
+ .../map-mode/trade-system/trade-svg-renderer.js    |  316 [32m++++++[m
+ src/js/map/map-mode/trade-system/trade-system.js   |    9 [32m+[m[31m-[m
+ .../map/map-mode/trade-system/trade-zones-data.js  |   13 [32m+[m[31m-[m
+ src/js/map/map-mode/trade-system/trade-zones.js    |  176 [32m+[m[31m---[m
+ 21 files changed, 1812 insertions(+), 797 deletions(-)
