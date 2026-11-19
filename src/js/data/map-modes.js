@@ -3,7 +3,7 @@ export const mapModes = {
         id: 'political',
         title: 'Политическая карта',
         icon: 'account_balance',
-        imagePath: 'src/assets/maps/fauxmap.png',
+        imagePath: 'src/assets/maps/fauxpolitmap.png',
         description: 'Государства, провинции и политический контроль.',
 
         features: {

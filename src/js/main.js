@@ -5,6 +5,10 @@ import { initMapModeControls } from "./ui/map-mode-control.js";
 import { initMarkerGroups, initSidebar, initFilters } from "./ui/sidebar.js";
 
 import {
+    createProvinceSystem
+} from './map/spatial/province-system.js';
+
+import {
     loadProvinces,
     getProvincesList
 } from "./data/provinces.js";
@@ -61,9 +65,57 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // ===== 4. ПРОВИНЦИИ =====
 
+    // 4.1. Запускаем старую систему.
+    // Пока сохраняем её для совместимости
+    // с существующими панелями и фильтрами.
+
     await loadProvinces(map);
 
+    // 4.2. Запускаем новую систему геометрии.
+
+    try {
+        const provinceSystem = await createProvinceSystem({
+            map,
+
+            baseUrl: './src/data/provinces/geometry/',
+
+            // Основное оформление новой геометрии.
+            style: () => ({
+                color: '#b9a3d6',
+                weight: 0.8,
+                opacity: 0.8,
+                fillColor: '#8b72a8',
+                fillOpacity: 0.12,
+            }),
+
+            // Ошибки отдельных тайлов не должны
+            // останавливать работу всей карты.
+            onTileError: ({ tileId, error }) => {
+                console.error(
+                    `Ошибка загрузки тайла ${tileId}:`,
+                    error
+                );
+            },
+        });
+
+        // Сохраняем доступ к системе для других модулей.
+        window.provinceSystem = provinceSystem;
+
+        console.log(
+            'Новая система провинций запущена',
+            provinceSystem.getStats()
+        );
+
+    } catch (error) {
+        console.error(
+            'Не удалось запустить новую систему провинций:',
+            error
+        );
+    }
+
+    // 4.3. Синхронизируем старые функции режимов карты.
     mapModeControls.syncModeFeatures();
+
 
     // ===== 5. URL И ФИЛЬТРЫ =====
 

@@ -1,0 +1,624 @@
+{
+  "package": "Fauxlore province geometry — fixed-grid tile prototype",
+  "version": "0.1.0-tile-prototype",
+  "source_release": "0.1.0-rc1",
+  "source_dimensions": [
+    10000,
+    10000
+  ],
+  "coordinate_system": "source PNG pixels; origin top-left; x right; y down",
+  "tile_scheme": {
+    "type": "fixed_grid",
+    "tile_size_pixels": 1024,
+    "columns": 10,
+    "rows": 10,
+    "projection": null,
+    "zoom_levels": null
+  },
+  "source_feature_count": 6692,
+  "tile_count": 49,
+  "tile_fragment_count": 7629,
+  "identity_policy": "province_id uses the permanent STF-00001 sequential format; source_component is retained as the current raster segmentation label",
+  "area_conservation": {
+    "status": "passed",
+    "mismatched_components": 0,
+    "epsilon": 1e-07
+  },
+  "tiles": [
+    {
+      "tile_id": "0_0",
+      "path": "tiles/0/0.geojson",
+      "bounds": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "feature_fragments": 1,
+      "unique_source_components": 1
+    },
+    {
+      "tile_id": "0_2",
+      "path": "tiles/2/0.geojson",
+      "bounds": [
+        0,
+        2048,
+        1024,
+        3072
+      ],
+      "feature_fragments": 15,
+      "unique_source_components": 15
+    },
+    {
+      "tile_id": "0_3",
+      "path": "tiles/3/0.geojson",
+      "bounds": [
+        0,
+        3072,
+        1024,
+        4096
+      ],
+      "feature_fragments": 190,
+      "unique_source_components": 190
+    },
+    {
+      "tile_id": "0_4",
+      "path": "tiles/4/0.geojson",
+      "bounds": [
+        0,
+        4096,
+        1024,
+        5120
+      ],
+      "feature_fragments": 310,
+      "unique_source_components": 310
+    },
+    {
+      "tile_id": "0_5",
+      "path": "tiles/5/0.geojson",
+      "bounds": [
+        0,
+        5120,
+        1024,
+        6144
+      ],
+      "feature_fragments": 4,
+      "unique_source_components": 4
+    },
+    {
+      "tile_id": "1_2",
+      "path": "tiles/2/1.geojson",
+      "bounds": [
+        1024,
+        2048,
+        2048,
+        3072
+      ],
+      "feature_fragments": 22,
+      "unique_source_components": 22
+    },
+    {
+      "tile_id": "1_3",
+      "path": "tiles/3/1.geojson",
+      "bounds": [
+        1024,
+        3072,
+        2048,
+        4096
+      ],
+      "feature_fragments": 107,
+      "unique_source_components": 107
+    },
+    {
+      "tile_id": "1_4",
+      "path": "tiles/4/1.geojson",
+      "bounds": [
+        1024,
+        4096,
+        2048,
+        5120
+      ],
+      "feature_fragments": 74,
+      "unique_source_components": 74
+    },
+    {
+      "tile_id": "1_5",
+      "path": "tiles/5/1.geojson",
+      "bounds": [
+        1024,
+        5120,
+        2048,
+        6144
+      ],
+      "feature_fragments": 3,
+      "unique_source_components": 3
+    },
+    {
+      "tile_id": "2_1",
+      "path": "tiles/1/2.geojson",
+      "bounds": [
+        2048,
+        1024,
+        3072,
+        2048
+      ],
+      "feature_fragments": 5,
+      "unique_source_components": 5
+    },
+    {
+      "tile_id": "2_2",
+      "path": "tiles/2/2.geojson",
+      "bounds": [
+        2048,
+        2048,
+        3072,
+        3072
+      ],
+      "feature_fragments": 118,
+      "unique_source_components": 118
+    },
+    {
+      "tile_id": "2_3",
+      "path": "tiles/3/2.geojson",
+      "bounds": [
+        2048,
+        3072,
+        3072,
+        4096
+      ],
+      "feature_fragments": 413,
+      "unique_source_components": 413
+    },
+    {
+      "tile_id": "2_4",
+      "path": "tiles/4/2.geojson",
+      "bounds": [
+        2048,
+        4096,
+        3072,
+        5120
+      ],
+      "feature_fragments": 142,
+      "unique_source_components": 142
+    },
+    {
+      "tile_id": "2_5",
+      "path": "tiles/5/2.geojson",
+      "bounds": [
+        2048,
+        5120,
+        3072,
+        6144
+      ],
+      "feature_fragments": 20,
+      "unique_source_components": 20
+    },
+    {
+      "tile_id": "2_6",
+      "path": "tiles/6/2.geojson",
+      "bounds": [
+        2048,
+        6144,
+        3072,
+        7168
+      ],
+      "feature_fragments": 6,
+      "unique_source_components": 6
+    },
+    {
+      "tile_id": "3_1",
+      "path": "tiles/1/3.geojson",
+      "bounds": [
+        3072,
+        1024,
+        4096,
+        2048
+      ],
+      "feature_fragments": 6,
+      "unique_source_components": 6
+    },
+    {
+      "tile_id": "3_2",
+      "path": "tiles/2/3.geojson",
+      "bounds": [
+        3072,
+        2048,
+        4096,
+        3072
+      ],
+      "feature_fragments": 60,
+      "unique_source_components": 60
+    },
+    {
+      "tile_id": "3_3",
+      "path": "tiles/3/3.geojson",
+      "bounds": [
+        3072,
+        3072,
+        4096,
+        4096
+      ],
+      "feature_fragments": 515,
+      "unique_source_components": 515
+    },
+    {
+      "tile_id": "3_4",
+      "path": "tiles/4/3.geojson",
+      "bounds": [
+        3072,
+        4096,
+        4096,
+        5120
+      ],
+      "feature_fragments": 474,
+      "unique_source_components": 474
+    },
+    {
+      "tile_id": "3_5",
+      "path": "tiles/5/3.geojson",
+      "bounds": [
+        3072,
+        5120,
+        4096,
+        6144
+      ],
+      "feature_fragments": 184,
+      "unique_source_components": 184
+    },
+    {
+      "tile_id": "3_6",
+      "path": "tiles/6/3.geojson",
+      "bounds": [
+        3072,
+        6144,
+        4096,
+        7168
+      ],
+      "feature_fragments": 24,
+      "unique_source_components": 24
+    },
+    {
+      "tile_id": "4_1",
+      "path": "tiles/1/4.geojson",
+      "bounds": [
+        4096,
+        1024,
+        5120,
+        2048
+      ],
+      "feature_fragments": 1,
+      "unique_source_components": 1
+    },
+    {
+      "tile_id": "4_2",
+      "path": "tiles/2/4.geojson",
+      "bounds": [
+        4096,
+        2048,
+        5120,
+        3072
+      ],
+      "feature_fragments": 286,
+      "unique_source_components": 286
+    },
+    {
+      "tile_id": "4_3",
+      "path": "tiles/3/4.geojson",
+      "bounds": [
+        4096,
+        3072,
+        5120,
+        4096
+      ],
+      "feature_fragments": 509,
+      "unique_source_components": 509
+    },
+    {
+      "tile_id": "4_4",
+      "path": "tiles/4/4.geojson",
+      "bounds": [
+        4096,
+        4096,
+        5120,
+        5120
+      ],
+      "feature_fragments": 523,
+      "unique_source_components": 523
+    },
+    {
+      "tile_id": "4_5",
+      "path": "tiles/5/4.geojson",
+      "bounds": [
+        4096,
+        5120,
+        5120,
+        6144
+      ],
+      "feature_fragments": 351,
+      "unique_source_components": 351
+    },
+    {
+      "tile_id": "4_6",
+      "path": "tiles/6/4.geojson",
+      "bounds": [
+        4096,
+        6144,
+        5120,
+        7168
+      ],
+      "feature_fragments": 30,
+      "unique_source_components": 30
+    },
+    {
+      "tile_id": "4_7",
+      "path": "tiles/7/4.geojson",
+      "bounds": [
+        4096,
+        7168,
+        5120,
+        8192
+      ],
+      "feature_fragments": 5,
+      "unique_source_components": 5
+    },
+    {
+      "tile_id": "5_2",
+      "path": "tiles/2/5.geojson",
+      "bounds": [
+        5120,
+        2048,
+        6144,
+        3072
+      ],
+      "feature_fragments": 24,
+      "unique_source_components": 24
+    },
+    {
+      "tile_id": "5_3",
+      "path": "tiles/3/5.geojson",
+      "bounds": [
+        5120,
+        3072,
+        6144,
+        4096
+      ],
+      "feature_fragments": 497,
+      "unique_source_components": 497
+    },
+    {
+      "tile_id": "5_4",
+      "path": "tiles/4/5.geojson",
+      "bounds": [
+        5120,
+        4096,
+        6144,
+        5120
+      ],
+      "feature_fragments": 199,
+      "unique_source_components": 199
+    },
+    {
+      "tile_id": "5_5",
+      "path": "tiles/5/5.geojson",
+      "bounds": [
+        5120,
+        5120,
+        6144,
+        6144
+      ],
+      "feature_fragments": 358,
+      "unique_source_components": 358
+    },
+    {
+      "tile_id": "5_6",
+      "path": "tiles/6/5.geojson",
+      "bounds": [
+        5120,
+        6144,
+        6144,
+        7168
+      ],
+      "feature_fragments": 201,
+      "unique_source_components": 201
+    },
+    {
+      "tile_id": "5_7",
+      "path": "tiles/7/5.geojson",
+      "bounds": [
+        5120,
+        7168,
+        6144,
+        8192
+      ],
+      "feature_fragments": 9,
+      "unique_source_components": 9
+    },
+    {
+      "tile_id": "6_2",
+      "path": "tiles/2/6.geojson",
+      "bounds": [
+        6144,
+        2048,
+        7168,
+        3072
+      ],
+      "feature_fragments": 18,
+      "unique_source_components": 18
+    },
+    {
+      "tile_id": "6_3",
+      "path": "tiles/3/6.geojson",
+      "bounds": [
+        6144,
+        3072,
+        7168,
+        4096
+      ],
+      "feature_fragments": 477,
+      "unique_source_components": 477
+    },
+    {
+      "tile_id": "6_4",
+      "path": "tiles/4/6.geojson",
+      "bounds": [
+        6144,
+        4096,
+        7168,
+        5120
+      ],
+      "feature_fragments": 288,
+      "unique_source_components": 288
+    },
+    {
+      "tile_id": "6_5",
+      "path": "tiles/5/6.geojson",
+      "bounds": [
+        6144,
+        5120,
+        7168,
+        6144
+      ],
+      "feature_fragments": 341,
+      "unique_source_components": 341
+    },
+    {
+      "tile_id": "6_6",
+      "path": "tiles/6/6.geojson",
+      "bounds": [
+        6144,
+        6144,
+        7168,
+        7168
+      ],
+      "feature_fragments": 248,
+      "unique_source_components": 248
+    },
+    {
+      "tile_id": "6_7",
+      "path": "tiles/7/6.geojson",
+      "bounds": [
+        6144,
+        7168,
+        7168,
+        8192
+      ],
+      "feature_fragments": 5,
+      "unique_source_components": 5
+    },
+    {
+      "tile_id": "7_2",
+      "path": "tiles/2/7.geojson",
+      "bounds": [
+        7168,
+        2048,
+        8192,
+        3072
+      ],
+      "feature_fragments": 8,
+      "unique_source_components": 8
+    },
+    {
+      "tile_id": "7_3",
+      "path": "tiles/3/7.geojson",
+      "bounds": [
+        7168,
+        3072,
+        8192,
+        4096
+      ],
+      "feature_fragments": 72,
+      "unique_source_components": 72
+    },
+    {
+      "tile_id": "7_4",
+      "path": "tiles/4/7.geojson",
+      "bounds": [
+        7168,
+        4096,
+        8192,
+        5120
+      ],
+      "feature_fragments": 216,
+      "unique_source_components": 216
+    },
+    {
+      "tile_id": "7_5",
+      "path": "tiles/5/7.geojson",
+      "bounds": [
+        7168,
+        5120,
+        8192,
+        6144
+      ],
+      "feature_fragments": 206,
+      "unique_source_components": 206
+    },
+    {
+      "tile_id": "7_6",
+      "path": "tiles/6/7.geojson",
+      "bounds": [
+        7168,
+        6144,
+        8192,
+        7168
+      ],
+      "feature_fragments": 47,
+      "unique_source_components": 47
+    },
+    {
+      "tile_id": "8_3",
+      "path": "tiles/3/8.geojson",
+      "bounds": [
+        8192,
+        3072,
+        9216,
+        4096
+      ],
+      "feature_fragments": 3,
+      "unique_source_components": 3
+    },
+    {
+      "tile_id": "8_4",
+      "path": "tiles/4/8.geojson",
+      "bounds": [
+        8192,
+        4096,
+        9216,
+        5120
+      ],
+      "feature_fragments": 5,
+      "unique_source_components": 5
+    },
+    {
+      "tile_id": "8_5",
+      "path": "tiles/5/8.geojson",
+      "bounds": [
+        8192,
+        5120,
+        9216,
+        6144
+      ],
+      "feature_fragments": 7,
+      "unique_source_components": 7
+    },
+    {
+      "tile_id": "8_6",
+      "path": "tiles/6/8.geojson",
+      "bounds": [
+        8192,
+        6144,
+        9216,
+        7168
+      ],
+      "feature_fragments": 2,
+      "unique_source_components": 2
+    }
+  ],
+  "known_exceptions": [
+    "Component 2848 is an intentional non-gameplay area; exclude it from gameplay mechanics, not from geometry.",
+    "Component 6644 represents two sea provinces currently merged by an open contour gap; retained and explicitly flagged pending a precise split.",
+    "Component 23 is intentionally retained as one large sea province pending any later source-art correction.",
+    "Small components tagged probable_noise are retained, not deleted.",
+    "No global morphological closing has been applied."
+  ]
+}

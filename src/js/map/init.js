@@ -1,19 +1,24 @@
+
+import { WORLD_BOUNDS } from './spatial/new-world-coordinates.js';
+
 export default function initFauxloreMap() {
     console.log('Инициализация карты...');
-    const MAP_WIDTH = 3478;
-    const MAP_HEIGHT = 2271;
-    const bounds = [[0, 0], [MAP_HEIGHT, MAP_WIDTH]];
+
     const map = L.map('map', {
         crs: L.CRS.Simple,
         minZoom: -2,
         maxZoom: 1.5,
         zoomControl: true,
-        maxBounds: bounds,
-        maxBoundsViscosity: 1.0
+        maxBounds: WORLD_BOUNDS,
+        maxBoundsViscosity: 1.0,
     });
+
     L.control.zoom({ position: 'bottomright' }).addTo(map);
-    map.fitBounds(bounds);
+
+    map.fitBounds(WORLD_BOUNDS);
+
     window.fauxloreMap = map;
-    window.mapBounds = bounds;
+    window.mapBounds = WORLD_BOUNDS;
+
     return map;
 }

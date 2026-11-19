@@ -1,0 +1,30 @@
+{
+  "package": "Fauxlore province geometry — pre-tile release candidate",
+  "version": "0.1.0-rc1",
+  "source_image": "fauxlore_map_KONTUR.png",
+  "source_dimensions": [
+    10000,
+    10000
+  ],
+  "coordinate_system": "source PNG pixels; origin top-left; x right; y down",
+  "files": [
+    "provinces.geojson",
+    "region_stats.csv",
+    "summary.json",
+    "validation_report.json",
+    "province_registry.csv"
+  ],
+  "feature_count": 6692,
+  "provisional_id": "source connected-component label; deterministic only while source raster topology is unchanged",
+  "canonical_id_policy": "province_id is assigned from the committed registry; source_component remains the current raster segmentation label and is not the persistent identity.",
+  "validation": "exact raster round-trip; Shapely validity; pixel-area and bounds checks; CSV/GeoJSON ID parity",
+  "scope": "geometry extraction only; no gameplay visibility, political ownership, map projection, or Leaflet transforms",
+  "known_exceptions": [
+    "Component 2848 is an intentional non-gameplay area; exclude it from gameplay mechanics, not from geometry.",
+    "Component 6644 represents two sea provinces currently merged by an open contour gap; retained and explicitly flagged pending a precise split.",
+    "Component 23 is intentionally retained as one large sea province pending any later source-art correction.",
+    "Small components tagged probable_noise are retained, not deleted.",
+    "No global morphological closing has been applied."
+  ],
+  "registry_entries": 6692
+}
