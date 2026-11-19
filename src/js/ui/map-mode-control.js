@@ -12,7 +12,8 @@ import {
 
 import { getMapModeId, getMapMode, setMapMode, syncMapModeToDOM } from "../data/map-mode-state.js";
 let currentBaseLayer = null;
-
+// Подключённая новая система провинций.
+let activeProvinceSystem = null;
 
 /**
  * Инициализирует панель режимов карты.
@@ -34,9 +35,21 @@ export function initMapModeControls(map) {
 
         return {
             syncModeFeatures,
-            getActiveMode
+            getActiveMode,
+            setProvinceSystem
         };
     }
+
+    /**
+     * Подключает новую систему провинций.
+     */
+    function setProvinceSystem(system) {
+        activeProvinceSystem = system;
+
+        // Применяем текущий режим к только что подключённой системе.
+        syncModeFeatures();
+    }
+
 
     // Создаём карточки на основе конфигурации режимов.
     renderModeCards(list);
@@ -100,10 +113,21 @@ export function initMapModeControls(map) {
             return;
         }
 
-        setProvinceLayerVisible(
-            map,
-            mode.features.provinces
-        );
+        // Если новая система подключена,
+        // старый слой больше не должен перехватывать клики.
+        if (activeProvinceSystem) {
+            setProvinceLayerVisible(map, false);
+
+            activeProvinceSystem.setVisible(
+                mode.features.provinces
+            );
+        } else {
+            // Временный fallback до подключения новой системы.
+            setProvinceLayerVisible(
+                map,
+                mode.features.provinces
+            );
+        }
 
         updateProvinceTools(
             mode.features.provinceTools
@@ -123,7 +147,8 @@ export function initMapModeControls(map) {
 
     return {
         syncModeFeatures,
-        getActiveMode
+        getActiveMode,
+        setProvinceSystem
     };
 }
 
@@ -162,10 +187,21 @@ function switchMapMode(map, modeId, announce = true) {
         mode.features.chronology
     );
 
-    setProvinceLayerVisible(
-        map,
-        mode.features.provinces
-    );
+    // Если новая система подключена,
+    // старый слой больше не должен перехватывать клики.
+    if (activeProvinceSystem) {
+        setProvinceLayerVisible(map, false);
+
+        activeProvinceSystem.setVisible(
+            mode.features.provinces
+        );
+    } else {
+        // Временный fallback до подключения новой системы.
+        setProvinceLayerVisible(
+            map,
+            mode.features.provinces
+        );
+    }
 
     // Единый источник состояния рассылает событие только при реальном изменении.
     if (announce) {

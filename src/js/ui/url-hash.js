@@ -1,11 +1,16 @@
 
-import {
-    getProvincesList,
-    highlightProvinceById,
-    clearProvinceSelection
-} from '../data/provinces.js';
-
 const PREFIX = 'province=';
+
+function getProvinceSystem() {
+    const system = window.provinceSystem;
+
+    if (!system?.registry || !system?.controller) {
+        console.warn('[URL Hash] Новая система провинций ещё не готова.');
+        return null;
+    }
+
+    return system;
+}
 
 // ===== ЧТЕНИЕ HASH =====
 
@@ -22,7 +27,13 @@ export function readProvinceIdFromHash() {
 
     const value = clean.slice(PREFIX.length);
 
-    return value || null;
+    if (!value) return null;
+
+    try {
+        return decodeURIComponent(value);
+    } catch {
+        return null;
+    }
 }
 
 // ===== ЗАПИСЬ HASH =====
@@ -30,11 +41,11 @@ export function readProvinceIdFromHash() {
 export function setProvinceHash(id) {
     if (id == null) return;
 
-    const next = `#${PREFIX}${id}`;
+    const next = `#${PREFIX}${encodeURIComponent(id)}`;
 
     if (window.location.hash === next) return;
 
-    history.pushState(null, '', next);
+    window.history.pushState(null, '', next);
 }
 
 // ===== ОЧИСТКА HASH =====
@@ -42,7 +53,7 @@ export function setProvinceHash(id) {
 export function clearProvinceHash() {
     if (!window.location.hash) return;
 
-    history.pushState(
+    window.history.pushState(
         null,
         '',
         window.location.pathname + window.location.search
@@ -51,63 +62,81 @@ export function clearProvinceHash() {
 
 // ===== ПРИМЕНЕНИЕ HASH =====
 
-export function applyProvinceHash(map) {
+export async function applyProvinceHash() {
+    const system = getProvinceSystem();
+
+    if (!system) return;
+
     const id = readProvinceIdFromHash();
 
+    // В URL нет выбранной провинции.
     if (!id) {
-        clearProvinceSelection({ emitEvent: false });
-        return;
-    }
-
-    const provinces = getProvincesList();
-
-    const found = provinces.find(province => {
-        const properties = province.properties || {};
-        const provinceId = properties.id ?? properties.fid;
-
-        return String(provinceId) === String(id);
-    });
-
-    if (!found) {
-        clearProvinceSelection({ emitEvent: false });
-        return;
-    }
-
-    // Не отправляем событие province:opened,
-    // иначе навигация может создавать новые записи истории.
-    const selected = highlightProvinceById(id, {
-        emitEvent: false
-    });
-
-    if (!selected) return;
-
-    // Наводим карту на выбранную провинцию.
-    if (window.provinceLayer) {
-        window.provinceLayer.eachLayer(layer => {
-            const properties = layer.feature?.properties || {};
-            const layerId = properties.id ?? properties.fid;
-
-            if (String(layerId) === String(id)) {
-                map.fitBounds(layer.getBounds());
-            }
+        system.controller.clearSelection({
+            source: 'url-hash'
         });
+
+        return;
+    }
+
+    // Проверяем наличие провинции в новой системе.
+    const province = system.registry.getProvince(id);
+
+    if (!province) {
+        console.warn(`[URL Hash] Провинция ${id} не найдена.`);
+
+        system.controller.clearSelection({
+            source: 'url-hash'
+        });
+
+        // Удаляем некорректный hash без создания новой записи истории.
+        window.history.replaceState(
+            null,
+            '',
+            window.location.pathname + window.location.search
+        );
+
+        return;
+    }
+
+    try {
+        // Выделяем провинцию и перемещаем к ней карту.
+        await system.controller.selectProvince(id, {
+            focus: true,
+            source: 'url-hash'
+        });
+    } catch (error) {
+        console.error(
+            `[URL Hash] Не удалось выбрать провинцию ${id}:`,
+            error
+        );
     }
 }
 
 // ===== СИНХРОНИЗАЦИЯ С ИСТОРИЕЙ =====
 
-export function initHashListener(map) {
+export function initHashListener() {
+    // Браузер вернулся к предыдущему или следующему URL.
     window.addEventListener('popstate', () => {
-        applyProvinceHash(map);
+        applyProvinceHash();
     });
 
     // Пользователь выбрал провинцию.
     window.addEventListener('province:opened', event => {
-        setProvinceHash(event.detail.id);
+        // Не создаём новую запись истории при восстановлении из URL.
+        if (event.detail?.source === 'url-hash') return;
+
+        const id = event.detail?.provinceId ?? event.detail?.id;
+
+        if (id != null) {
+            setProvinceHash(id);
+        }
     });
 
-    // Пользователь закрыл провинцию.
-    window.addEventListener('province:closed', () => {
+    // Пользователь снял выбор.
+    window.addEventListener('province:closed', event => {
+        // Восстановление состояния из URL не должно менять историю.
+        if (event.detail?.source === 'url-hash') return;
+
         clearProvinceHash();
     });
 }

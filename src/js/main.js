@@ -1,4 +1,3 @@
-
 import initFauxloreMap from "./map/init.js";
 
 import { initMapModeControls } from "./ui/map-mode-control.js";
@@ -76,7 +75,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         const provinceSystem = await createProvinceSystem({
             map,
-
             baseUrl: './src/data/provinces/geometry/',
 
             // Основное оформление новой геометрии.
@@ -97,6 +95,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 );
             },
         });
+
+        mapModeControls.setProvinceSystem(provinceSystem);
 
         // Сохраняем доступ к системе для других модулей.
         window.provinceSystem = provinceSystem;
